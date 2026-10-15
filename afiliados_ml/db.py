@@ -39,3 +39,21 @@ def resumo(con):
     a_receber = con.execute(
         "SELECT COALESCE(SUM(comissao),0) FROM vendas WHERE status='pendente'").fetchone()[0]
     return por_mes, por_produto, a_receber
+
+
+ALERTAS = """
+CREATE TABLE IF NOT EXISTS alertas (
+    item_id TEXT PRIMARY KEY,
+    titulo TEXT NOT NULL,
+    link TEXT NOT NULL DEFAULT '',
+    alvo REAL NOT NULL,            -- avisa quando preço <= alvo
+    ultimo_preco REAL
+);
+"""
+_conectar = conectar
+
+
+def conectar(caminho: str = "afiliados.db") -> sqlite3.Connection:  # noqa: F811
+    con = _conectar(caminho)
+    con.executescript(ALERTAS)
+    return con
