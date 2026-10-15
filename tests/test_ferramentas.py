@@ -53,3 +53,20 @@ class T(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TelegramT(unittest.TestCase):
+    def test_envio_e_divisao(self):
+        import os
+        from afiliados_ml import telegram
+        enviados = []
+        os.environ["TELEGRAM_BOT_TOKEN"] = "tok"
+        telegram.enviar("a" * 8500, "@canal", lambda t, c, x: enviados.append((t, c, len(x))))
+        self.assertEqual(enviados, [("tok", "@canal", 4000), ("tok", "@canal", 4000), ("tok", "@canal", 500)])
+
+    def test_sem_config(self):
+        import os
+        from afiliados_ml import telegram
+        os.environ.pop("TELEGRAM_BOT_TOKEN", None)
+        with self.assertRaises(telegram.ErroTelegram):
+            telegram.enviar("oi", "@canal")

@@ -3,14 +3,16 @@
   python -m afiliados_ml buscar "organizador" [--min-vendidos 50] [--limite 30]
   python -m afiliados_ml post MLB123 --link SEU_LINK [--para whatsapp|instagram|tiktok]
   python -m afiliados_ml vigiar MLB123 --alvo 79,90
-  python -m afiliados_ml checar                avisa quedas de preço (rode todo dia)
+  python -m afiliados_ml checar [--telegram]   avisa quedas de preço (rode todo dia)
+  (post também aceita --telegram [--chat @canal] para publicar no canal)
 """
 import argparse
 
-from . import alertas, comissao, ml_api, posts
+from . import alertas, comissao, ml_api, posts, telegram
 from .db import conectar
 from .importar import numero
 from .ml_api import ErroML
+from .telegram import ErroTelegram
 
 
 def cmd_buscar(a):
@@ -33,7 +35,11 @@ def cmd_buscar(a):
 
 def cmd_post(a):
     p = ml_api.item(ml_api.extrair_id(a.produto))
-    print(posts.gerar(p, a.link, a.para))
+    texto = posts.gerar(p, a.link, a.para)
+    print(texto)
+    if a.telegram:
+        telegram.enviar(texto, a.chat)
+        print("\nEnviado ao Telegram.")
 
 
 def cmd_vigiar(a):
@@ -43,6 +49,8 @@ def cmd_vigiar(a):
 def cmd_checar(a):
     avisos = alertas.checar(conectar(a.db))
     print("\n".join(avisos) if avisos else "Nenhuma queda de preço.")
+    if a.telegram and avisos:
+        telegram.enviar("\n\n".join(avisos), a.chat)
 
 
 def cmd_servir(a):
@@ -62,13 +70,17 @@ def main():
     s = sub.add_parser("post"); s.set_defaults(f=cmd_post)
     s.add_argument("produto"); s.add_argument("--link", required=True)
     s.add_argument("--para", default="whatsapp", choices=["whatsapp", "instagram", "tiktok"])
+    s.add_argument("--telegram", action="store_true", help="também envia ao Telegram")
+    s.add_argument("--chat", help="canal/chat do Telegram (padrão: TELEGRAM_CHAT_ID)")
     s = sub.add_parser("vigiar"); s.set_defaults(f=cmd_vigiar)
     s.add_argument("produto"); s.add_argument("--alvo", required=True)
     s = sub.add_parser("checar"); s.set_defaults(f=cmd_checar)
+    s.add_argument("--telegram", action="store_true", help="envia os avisos ao Telegram")
+    s.add_argument("--chat", help="chat do Telegram (padrão: TELEGRAM_CHAT_ID)")
     a = ap.parse_args()
     try:
         a.f(a)
-    except (ErroML, ValueError) as ex:
+    except (ErroML, ErroTelegram, ValueError) as ex:
         raise SystemExit(f"Erro: {ex}")
 
 
