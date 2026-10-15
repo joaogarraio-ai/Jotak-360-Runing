@@ -44,3 +44,30 @@ plataforma: confira nas configurações da conta.
 - Não prometa preço ou estoque que você não conferiu.
 - Siga as regras de publicidade de cada rede e do programa de afiliados do Mercado Livre
   (confira os termos, inclusive sobre onde o link pode ser divulgado).
+
+---
+
+# Plano de 30 dias para chegar a 1.000 seguidores no TikTok
+
+Meta realista: 1.000 seguidores em 30 a 60 dias com constância. Não é garantido:
+depende do conteúdo e do algoritmo.
+
+## Semana 1: base
+- Conta pronta, bio e foto definidas. Escolha UM nicho (ex.: casa e cozinha, tecnologia barata, pet).
+- Assista 20 min por dia a vídeos de ofertas do seu nicho e anote ganchos que funcionam.
+- Poste 1 vídeo por dia (7 vídeos), mesmo que simples.
+
+## Semanas 2 a 4: ritmo
+- 2 vídeos por dia (um de oferta, um de dica/curiosidade do nicho).
+- Responda TODO comentário na primeira hora e faça vídeo respondendo perguntas.
+- Comente em vídeos grandes do nicho (comentário útil, sem spam).
+- Repita o formato dos 2 ou 3 vídeos que mais renderam.
+- Chame para o grupo de ofertas no fim do vídeo: seguidor que entra no grupo fica.
+
+## Como medir (anote a cada semana)
+| Semana | Vídeos | Seguidores | Melhor vídeo (visualizações) |
+|---|---|---|---|
+
+## O que NÃO fazer
+- Comprar seguidores ou usar robô/troca de seguidor: são contas falsas, não compram nada,
+  derrubam o alcance e podem banir a conta.
