@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gestão de Obras</title>
+<style>
+:root{--g:#173d37;--g2:#1f5448;--gold:#d9a24f;--bg:#f3f5f3;--card:#fff;--tx:#1b2b27;--mut:#6b7c77;--ln:#dfe6e2;--soft:#e8f2ec;--red:#b3402f}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx)}
+header{background:var(--g);color:#fff;padding:14px 20px;border-bottom:4px solid var(--gold);display:flex;justify-content:space-between;align-items:center;gap:10px}
+header h1{margin:0;font-size:20px}header small{opacity:.8}
+.wrap{display:flex;min-height:calc(100vh - 70px)}
+nav{width:210px;padding:18px 12px;flex-shrink:0}
+nav b{display:block;font-size:11px;letter-spacing:.12em;color:var(--mut);margin:0 10px 10px}
+nav button{display:block;width:100%;text-align:left;background:none;border:0;padding:12px 14px;border-radius:8px;font-size:15px;font-weight:600;color:var(--g);cursor:pointer;margin-bottom:4px;border-left:3px solid transparent}
+nav button.on{background:var(--soft);border-left-color:var(--gold)}
+main{flex:1;padding:24px 28px;max-width:1200px;min-width:0}
+.eyebrow{color:#b88a3c;font-size:12px;letter-spacing:.14em;font-weight:700}
+h2{font-size:30px;font-weight:500;margin:6px 0 4px}
+.sub{color:var(--mut);margin:0 0 18px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:12px;padding:16px;margin-bottom:16px}
+.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.per{text-align:center;min-width:120px}.per small{display:block;font-size:11px;letter-spacing:.1em;color:var(--mut);font-weight:700}
+button.b,.b{border:1px solid var(--g);background:#fff;color:var(--g);padding:8px 14px;border-radius:8px;font-size:14px;cursor:pointer}
+button.p{background:var(--g);color:#fff}
+button.sm{padding:4px 9px;font-size:12px}
+button.ic{border:0;background:none;cursor:pointer;font-size:18px}
+select,input,textarea{font:inherit;padding:8px 10px;border:1px solid var(--ln);border-radius:8px;background:#fff;width:100%}
+label{display:block;font-size:12px;font-weight:700;color:var(--mut);margin:10px 0 4px;letter-spacing:.04em}
+.bar select{width:auto;min-width:200px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:18px}
+.kpi{background:#fff;border:1px solid var(--ln);border-radius:12px;padding:16px}
+.kpi.dk{background:var(--g2);color:#fff}.kpi small{font-weight:600;opacity:.85}
+.kpi strong{display:block;font-size:28px;margin:8px 0}
+.empty{border:1px dashed var(--ln);border-radius:12px;padding:30px;text-align:center;color:var(--mut)}
+table{width:100%;border-collapse:collapse}th,td{padding:9px 8px;border-bottom:1px solid var(--ln);text-align:left;font-size:14px}
+th{font-size:12px;color:var(--mut)}td.r,th.r{text-align:right}
+.wk{border:1px solid var(--ln);border-radius:12px;margin-bottom:16px;overflow:hidden;background:#fff}
+.wk>div.h{background:var(--soft);padding:14px 18px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.days{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));}
+.days>div{padding:10px;border-right:1px solid var(--ln);border-top:1px solid var(--ln);font-size:12px}
+.days b{display:block;font-size:13px}
+.sh{display:flex;align-items:center;gap:5px;border:1px solid var(--ln);border-radius:8px;padding:6px;margin-top:6px;font-size:12px;cursor:pointer;font-weight:700}
+.sh input{width:auto}.sh.on{background:var(--soft);border-color:var(--g2)}
+.tag{display:inline-block;padding:2px 8px;border-radius:99px;font-size:12px;font-weight:700}
+.tag.ok{background:#d7eedd;color:#1d6a37}.tag.no{background:#f7e3dd;color:var(--red)}
+dialog{border:0;border-radius:14px;padding:22px;width:min(560px,94vw);max-height:92vh}
+dialog::backdrop{background:#0007}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.thumbs img{height:70px;border-radius:6px;border:1px solid var(--ln)}
+@media(max-width:760px){.wrap{flex-direction:column}nav{width:auto;display:flex;overflow-x:auto;padding:8px}nav b{display:none}nav button{white-space:nowrap;width:auto}main{padding:16px}.row{grid-template-columns:1fr}}
+@media print{header,nav,.noprint{display:none!important}main{padding:0}.card,.wk{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header><div><h1>Gestão de Obras</h1><small>Controle a cada 10 dias</small></div><small>Expediente: 07h–12h · 13h–17h</small></header>
+<div class="wrap"><nav id="nav"></nav><main id="app"></main></div>
+<dialog id="dlg"></dialog>
+<script>
+const KEY='gestao_obras_v1';
+const MENU=[['fech','Fechamento'],['dia','Diárias'],['rdo','Diário de Obra (RDO)'],['desp','Despesas'],['fin','Financeiro'],['obras','Obras'],['trab','Trabalhadores']];
+let S=load(),view='fech',ref=new Date(),obraSel='',filtroObra='';
+function seed(){return{obras:[{id:'o1',nome:'Fazenda Paraíso'}],
+ workers:[['Danilo','Eletricista',150,'dinheiro'],['Iza Garraio','Mestre de obras',500,'pix'],['Joane Garraio','Servente',80,'dinheiro'],['João Karlos','Pintor',150,'dinheiro'],['João Paulo','Mestre de obras',200,'pix']].map((w,i)=>({id:'w'+i,nome:w[0],funcao:w[1],diaria:w[2],pgto:w[3],contato:'',pix:''})),
+ shifts:{},despesas:[],pagos:{},rdos:{}}}
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||seed()}catch(e){return seed()}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){alert('Sem espaço para salvar (muitas fotos?). Exporte e limpe dados antigos.')}}
+const $=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const brl=n=>(+n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const br=s=>s.split('-').reverse().join('/');
+const DS=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const wd=s=>DS[new Date(s+'T12:00').getDay()];
+const oNome=id=>(S.obras.find(o=>o.id===id)||{nome:'—'}).nome;
+// período de 10 dias: 1-10, 11-20, 21-fim do mês
+function periodo(d){const y=d.getFullYear(),m=d.getMonth(),dia=d.getDate();
+ const a=dia<=10?1:dia<=20?11:21,b=dia<=10?10:dia<=20?20:new Date(y,m+1,0).getDate();
+ const days=[];for(let i=a;i<=b;i++)days.push(iso(new Date(y,m,i)));
+ return{ini:days[0],fim:days[days.length-1],days,key:days[0]}}
+function shiftP(dir){const p=periodo(ref),[y,m,d]=p.ini.split('-').map(Number);
+ ref=dir>0?new Date(y,m-1,d+(p.days.length)):new Date(y,m-1,d-1);render()}
+const P=()=>periodo(ref);
+const sk=(w,o,d)=>w+'|'+o+'|'+d;
+function lancs(p,obra){ // por trabalhador no período
+ return S.workers.map(w=>{let meio=0,porObra={};
+  p.days.forEach(d=>S.obras.forEach(o=>{if(obra&&o.id!==obra)return;const s=S.shifts[sk(w.id,o.id,d)];if(s){const n=(s.m?1:0)+(s.t?1:0);meio+=n;porObra[o.id]=(porObra[o.id]||0)+n}}));
+  return{w,dias:meio/2,valor:meio/2*w.diaria,porObra,pago:!!S.pagos[p.key+'|'+w.id]}}).filter(x=>x.dias>0)}
+const desps=(p,obra)=>S.despesas.filter(x=>x.data>=p.ini&&x.data<=p.fim&&(!obra||x.obraId===obra));
+function pbar(extra=''){const p=P();
+ return `<div class="card bar noprint"><button class="ic" onclick="shiftP(-1)">‹</button><div class="per"><small>PERÍODO</small><b>${br(p.ini).slice(0,5)} a ${br(p.fim).slice(0,5)}</b></div><button class="ic" onclick="shiftP(1)">›</button>${extra}<button class="b" onclick="ref=new Date();render()">Período atual</button></div>`}
+const obraSelect=(all=true)=>`<select onchange="filtroObra=this.value;render()">${all?'<option value="">Todas as obras</option>':''}${S.obras.map(o=>`<option value="${o.id}" ${filtroObra===o.id?'selected':''}>${esc(o.nome)}</option>`).join('')}</select>`;
+function head(t,sub,btns=''){return `<div class="top"><div><div class="eyebrow">CONTROLE DAS OBRAS</div><h2>${t}</h2><p class="sub">${sub}</p></div><div class="noprint">${btns}</div></div>`}
+function render(){
+ $('#nav').innerHTML='<b>MENU</b>'+MENU.map(m=>`<button class="${view===m[0]?'on':''}" onclick="view='${m[0]}';render()">${m[1]}</button>`).join('');
+ $('#app').innerHTML=V[view]();window.scrollTo(0,0)}
+function download(name,html){const b=new Blob(['﻿<html><meta charset="utf-8"><body>'+html+'</body></html>'],{type:'application/vnd.ms-excel'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click()}
+function printHTML(t,body){const w=window.open('','_blank');w.document.write(`<!doctype html><meta charset="utf-8"><title>${esc(t)}</title><style>body{font-family:Arial;margin:24px;color:#111}table{width:100%;border-collapse:collapse;margin:8px 0}td,th{border:1px solid #999;padding:6px;font-size:13px;text-align:left}h1{font-size:20px}h3{margin:16px 0 4px}img{height:120px;margin:4px}</style>${body}`);w.document.close();w.focus();setTimeout(()=>w.print(),400)}
+const V={};
+// ---------- Fechamento
+function resumo(){const p=P(),L=lancs(p,filtroObra),D=desps(p,filtroObra);
+ const mo=L.reduce((a,x)=>a+x.valor,0),md=D.reduce((a,x)=>a+x.valor,0),pend=L.filter(x=>!x.pago).reduce((a,x)=>a+x.valor,0);
+ const obras=S.obras.filter(o=>!filtroObra||o.id===filtroObra).map(o=>{
+  const m=L.reduce((a,x)=>a+(x.porObra[o.id]||0)/2*x.w.diaria,0),d=D.filter(x=>x.obraId===o.id).reduce((a,x)=>a+x.valor,0);return{o,m,d}}).filter(x=>x.m||x.d);
+ return{p,L,D,mo,md,pend,obras,total:mo+md}}
+V.fech=()=>{const r=resumo();
+ return head('Fechamento do período','Confira os valores antes de enviar para pagamento (a cada 10 dias).',`<button class="b" onclick="copiar()">Copiar resumo</button> <button class="b" onclick="window.print()">Imprimir relatório</button>`)+
+ pbar(obraSelect())+
+ `<div class="kpis"><div class="kpi"><small>Mão de obra</small><strong>${brl(r.mo)}</strong><small>${r.L.reduce((a,x)=>a+x.dias,0)} diária(s)</small></div>
+ <div class="kpi"><small>Materiais e despesas</small><strong>${brl(r.md)}</strong><small>${r.D.length} lançamento(s)</small></div>
+ <div class="kpi dk"><small>Total do período</small><strong>${brl(r.total)}</strong><small>Pendente de pagamento: ${brl(r.pend)}</small></div></div>
+ <div class="top"><h3 style="margin:0">Resumo por obra</h3><div class="noprint"><button class="b" onclick="view='dia';render()">+ Diária</button> <button class="b" onclick="editDesp()">+ Despesa</button></div></div><br>`+
+ (r.obras.length?`<div class="card"><table><tr><th>Obra</th><th class="r">Mão de obra</th><th class="r">Despesas</th><th class="r">Total</th></tr>${r.obras.map(x=>`<tr><td>${esc(x.o.nome)}</td><td class="r">${brl(x.m)}</td><td class="r">${brl(x.d)}</td><td class="r"><b>${brl(x.m+x.d)}</b></td></tr>`).join('')}</table></div>`:
+ `<div class="empty"><b>Período sem lançamentos</b><p>Cadastre um trabalhador e lance as diárias ou despesas.</p></div>`)+
+ `<p class="sub">Relatório de ${br(r.p.ini)} a ${br(r.p.fim)} · Gerado em ${new Date().toLocaleString('pt-BR')}</p>`};
+function copiar(){const r=resumo();let t=`FECHAMENTO ${br(r.p.ini)} a ${br(r.p.fim)}\n`;
+ r.obras.forEach(x=>t+=`${x.o.nome}: mão de obra ${brl(x.m)} + despesas ${brl(x.d)} = ${brl(x.m+x.d)}\n`);
+ t+=`TOTAL: ${brl(r.total)} (pendente ${brl(r.pend)})`;navigator.clipboard.writeText(t).then(()=>alert('Resumo copiado!'))}
+// ---------- Diárias
+V.dia=()=>{const p=P();if(!obraSel||!S.obras.find(o=>o.id===obraSel))obraSel=(S.obras[0]||{}).id||'';
+ const sel=`<select onchange="obraSel=this.value;render()">${S.obras.map(o=>`<option value="${o.id}" ${o.id===obraSel?'selected':''}>${esc(o.nome)}</option>`).join('')}</select>`;
+ if(!S.obras.length)return head('Diárias','')+'<div class="empty">Cadastre uma obra primeiro.</div>';
+ return head('Diárias dos trabalhadores','Marque manhã, tarde ou o dia completo em cada obra.')+pbar()+
+ `<div class="card"><label>OBRA DESTE PERÍODO</label>${sel}</div>`+
+ S.workers.map(w=>{let n=0;const cols=p.days.map(d=>{const s=S.shifts[sk(w.id,obraSel,d)]||{};n+=(s.m?.5:0)+(s.t?.5:0);
+  return `<div><b>${wd(d).slice(0,3)}</b>${br(d).slice(0,5)}${['m','t'].map(k=>`<label class="sh ${s[k]?'on':''}" style="margin:6px 0 0;color:inherit"><input type="checkbox" ${s[k]?'checked':''} onchange="tog('${w.id}','${d}','${k}',this.checked)">${k=='m'?'Manhã':'Tarde'}</label>`).join('')}</div>`}).join('');
+  return `<div class="wk"><div class="h"><div><b style="font-size:18px">${esc(w.nome)}</b><br><small>${esc(w.funcao)} · ${brl(w.diaria)} por diária</small></div><b>${n} diária(s) · ${brl(n*w.diaria)}</b></div><div class="days">${cols}</div></div>`}).join('')||'<div class="empty">Cadastre trabalhadores.</div>'};
+function tog(w,d,k,v){const key=sk(w,obraSel,d),s=S.shifts[key]||{};s[k]=v;if(!s.m&&!s.t)delete S.shifts[key];else S.shifts[key]=s;save();render()}
+// ---------- Despesas
+V.desp=()=>{const p=P(),D=desps(p,filtroObra).sort((a,b)=>a.data<b.data?1:-1);
+ return head('Materiais e despesas','Fotografe a nota ou registre compras, gasolina e frete.',`<button class="b p" onclick="editDesp()">+ Nova despesa</button>`)+
+ `<div class="card noprint"><button class="b" onclick="xlsDesp()">Baixar notas em Excel .xls</button></div>`+pbar(obraSelect())+
+ `<div class="card"><h3 style="margin-top:0">Despesas neste período</h3>${D.length?`<table><tr><th>Data</th><th>Obra</th><th>Descrição</th><th>Nota</th><th class="r">Valor</th><th></th></tr>${D.map(x=>`<tr><td>${br(x.data)}</td><td>${esc(oNome(x.obraId))}</td><td>${esc(x.desc)}<br><small>${esc(x.cat)}</small>${x.foto?` <a href="#" onclick="verFoto('${x.id}');return false">📷</a>`:''}</td><td>${esc(x.nota)}</td><td class="r">${brl(x.valor)}</td><td class="noprint"><button class="ic" onclick="editDesp('${x.id}')">✎</button></td></tr>`).join('')}</table>`:'<div class="empty">Nenhuma despesa neste período.</div>'}</div>`};
+function editDesp(id){const x=S.despesas.find(d=>d.id===id)||{data:iso(new Date()),obraId:filtroObra||(S.obras[0]||{}).id,cat:'Material'};
+ openDlg(`<h3>${id?'Editar':'Nova'} despesa</h3><div class="row"><div><label>DATA</label><input type="date" id="f_data" value="${x.data}"></div><div><label>VALOR (R$)</label><input id="f_valor" inputmode="decimal" value="${x.valor??''}"></div></div>
+ <label>OBRA</label><select id="f_obra">${S.obras.map(o=>`<option value="${o.id}" ${o.id===x.obraId?'selected':''}>${esc(o.nome)}</option>`).join('')}</select>
+ <div class="row"><div><label>CATEGORIA</label><select id="f_cat">${['Material','Combustível','Frete','Ferramenta','Alimentação','Outros'].map(c=>`<option ${c===x.cat?'selected':''}>${c}</option>`).join('')}</select></div><div><label>Nº DA NOTA</label><input id="f_nota" value="${esc(x.nota||'')}"></div></div>
+ <label>DESCRIÇÃO</label><input id="f_desc" value="${esc(x.desc||'')}"><label>FOTO DA NOTA</label><input type="file" accept="image/*" capture="environment" id="f_foto">
+ <div style="margin-top:16px;display:flex;gap:8px;justify-content:space-between"><span>${id?`<button class="b" onclick="delDesp('${id}')">Excluir</button>`:''}</span><span><button class="b" onclick="$('#dlg').close()">Cancelar</button> <button class="b p" onclick="saveDesp('${id||''}')">Salvar</button></span></div>`)}
+async function saveDesp(id){const v=parseFloat(String($('#f_valor').value).replace(/\./g,'').replace(',','.'));if(!(v>0)||!$('#f_desc').value.trim())return alert('Informe descrição e valor.');
+ let x=S.despesas.find(d=>d.id===id);if(!x){x={id:uid()};S.despesas.push(x)}
+ Object.assign(x,{data:$('#f_data').value,valor:v,obraId:$('#f_obra').value,cat:$('#f_cat').value,nota:$('#f_nota').value,desc:$('#f_desc').value.trim()});
+ const f=$('#f_foto').files[0];if(f)x.foto=await resize(f);save();$('#dlg').close();render()}
+function delDesp(id){if(confirm('Excluir despesa?')){S.despesas=S.despesas.filter(d=>d.id!==id);save();$('#dlg').close();render()}}
+function verFoto(id){openDlg(`<img src="${S.despesas.find(d=>d.id===id).foto}" style="width:100%"><br><br><button class="b" onclick="$('#dlg').close()">Fechar</button>`)}
+function xlsDesp(){const D=desps(P(),filtroObra);download('despesas.xls',`<table border=1><tr><th>Data</th><th>Obra</th><th>Categoria</th><th>Descrição</th><th>Nota</th><th>Valor</th></tr>${D.map(x=>`<tr><td>${br(x.data)}</td><td>${esc(oNome(x.obraId))}</td><td>${esc(x.cat)}</td><td>${esc(x.desc)}</td><td>${esc(x.nota)}</td><td>${x.valor.toFixed(2).replace('.',',')}</td></tr>`).join('')}</table>`)}
+// ---------- Financeiro
+V.fin=()=>{const p=P(),L=lancs(p,filtroObra),D=desps(p,filtroObra),tot=L.reduce((a,x)=>a+x.valor,0),pg=L.filter(x=>x.pago).reduce((a,x)=>a+x.valor,0);
+ return head('Financeiro do período','Relação de pagamentos para a equipe financeira.')+pbar(obraSelect())+
+ `<div class="card bar"><div style="flex:1"><b>Relação para o financeiro</b><br><small>A baixa registra o pagamento informado; o aplicativo não movimenta dinheiro.</small></div><button class="b" onclick="printFin()">Imprimir</button><button class="b p" onclick="xlsFin()">Baixar Excel .xls</button></div>
+ <div class="kpis"><div class="kpi"><small>Total do período</small><strong>${brl(tot+D.reduce((a,x)=>a+x.valor,0))}</strong></div><div class="kpi"><small>A pagar (mão de obra)</small><strong>${brl(tot-pg)}</strong></div><div class="kpi"><small>Pago</small><strong>${brl(pg)}</strong></div></div>`+
+ (L.length?`<div class="card"><table><tr><th>Trabalhador</th><th>Pagamento</th><th class="r">Diárias</th><th class="r">Valor</th><th>Situação</th></tr>${L.map(x=>`<tr><td>${esc(x.w.nome)}<br><small>${esc(x.w.funcao)}</small></td><td>${x.w.pgto=='pix'?'PIX '+esc(x.w.pix||'(chave não cadastrada)'):'Dinheiro'}</td><td class="r">${x.dias}</td><td class="r"><b>${brl(x.valor)}</b></td><td><button class="b sm" onclick="baixa('${x.w.id}')"><span class="tag ${x.pago?'ok':'no'}">${x.pago?'Pago':'A pagar'}</span></button></td></tr>`).join('')}</table></div>`:'<div class="empty"><b>Nenhum lançamento neste período</b></div>')};
+function baixa(w){const k=P().key+'|'+w;if(S.pagos[k])delete S.pagos[k];else S.pagos[k]=true;save();render()}
+function finTable(){const p=P(),L=lancs(p,filtroObra);return `<h1>Pagamentos ${br(p.ini)} a ${br(p.fim)}</h1><table border=1><tr><th>Trabalhador</th><th>Função</th><th>Forma</th><th>Chave PIX</th><th>Diárias</th><th>Valor</th><th>Situação</th></tr>${L.map(x=>`<tr><td>${esc(x.w.nome)}</td><td>${esc(x.w.funcao)}</td><td>${x.w.pgto}</td><td>${esc(x.w.pix)}</td><td>${x.dias}</td><td>${x.valor.toFixed(2).replace('.',',')}</td><td>${x.pago?'Pago':'A pagar'}</td></tr>`).join('')}</table>`}
+const printFin=()=>printHTML('Financeiro',finTable()),xlsFin=()=>download('financeiro.xls',finTable());
+// ---------- Obras e Trabalhadores
+V.obras=()=>head('Obras','Cadastre as obras para lançar diárias, despesas e RDO.',`<button class="b p" onclick="editObra()">+ Nova obra</button>`)+
+ `<div class="card">${S.obras.map(o=>`<div class="top" style="padding:10px 0;border-bottom:1px solid var(--ln)"><b>${esc(o.nome)}</b><button class="ic" onclick="editObra('${o.id}')">✎</button></div>`).join('')||'<div class="empty">Nenhuma obra.</div>'}</div>`;
+function editObra(id){const o=S.obras.find(x=>x.id===id)||{};openDlg(`<h3>${id?'Editar':'Nova'} obra</h3><label>NOME</label><input id="f_nome" value="${esc(o.nome||'')}"><div style="margin-top:16px;text-align:right"><button class="b" onclick="$('#dlg').close()">Cancelar</button> <button class="b p" onclick="saveObra('${id||''}')">Salvar</button></div>`)}
+function saveObra(id){const n=$('#f_nome').value.trim();if(!n)return;let o=S.obras.find(x=>x.id===id);if(!o){o={id:uid()};S.obras.push(o)}o.nome=n;save();$('#dlg').close();render()}
+V.trab=()=>head('Equipe e valores','Cadastre a função, a diária e como cada pessoa recebe.',`<button class="b p" onclick="editW()">+ Novo trabalhador</button>`)+
+ `<div class="card">${S.workers.map(w=>`<div class="top" style="padding:12px 0;border-bottom:1px solid var(--ln)"><div><b>${esc(w.nome)}</b><br><small>${esc(w.funcao)} · ${w.pgto=='pix'?'PIX '+esc(w.pix||'(chave não cadastrada)'):'Dinheiro'}${w.contato?' · '+esc(w.contato):''}</small></div><div style="text-align:right"><b>${brl(w.diaria)}</b><br><small>por diária completa</small> <button class="ic" onclick="editW('${w.id}')">✎</button></div></div>`).join('')}</div>`;
+function editW(id){const w=S.workers.find(x=>x.id===id)||{pgto:'dinheiro'};
+ openDlg(`<h3>${id?'Editar':'Novo'} trabalhador</h3><label>NOME</label><input id="f_nome" value="${esc(w.nome||'')}"><div class="row"><div><label>FUNÇÃO</label><input id="f_func" value="${esc(w.funcao||'')}"></div><div><label>DIÁRIA COMPLETA (R$)</label><input id="f_diaria" inputmode="decimal" value="${w.diaria??''}"></div></div>
+ <div class="row"><div><label>FORMA DE PAGAMENTO</label><select id="f_pg"><option value="dinheiro" ${w.pgto=='dinheiro'?'selected':''}>Dinheiro</option><option value="pix" ${w.pgto=='pix'?'selected':''}>PIX</option></select></div><div><label>CHAVE PIX</label><input id="f_pix" value="${esc(w.pix||'')}"></div></div><label>CONTATO</label><input id="f_ct" value="${esc(w.contato||'')}">
+ <div style="margin-top:16px;display:flex;justify-content:space-between"><span>${id?`<button class="b" onclick="delW('${id}')">Excluir</button>`:''}</span><span><button class="b" onclick="$('#dlg').close()">Cancelar</button> <button class="b p" onclick="saveW('${id||''}')">Salvar</button></span></div>`)}
+function saveW(id){const d=parseFloat(String($('#f_diaria').value).replace(',','.'));if(!$('#f_nome').value.trim()||!(d>0))return alert('Informe nome e diária.');
+ let w=S.workers.find(x=>x.id===id);if(!w){w={id:uid()};S.workers.push(w)}
+ Object.assign(w,{nome:$('#f_nome').value.trim(),funcao:$('#f_func').value,diaria:d,pgto:$('#f_pg').value,pix:$('#f_pix').value,contato:$('#f_ct').value});save();$('#dlg').close();render()}
+function delW(id){if(confirm('Excluir trabalhador? As diárias já lançadas ficam sem nome.')){S.workers=S.workers.filter(w=>w.id!==id);save();$('#dlg').close();render()}}
+// ---------- RDO
+V.rdo=()=>{const p=P();if(!obraSel||!S.obras.find(o=>o.id===obraSel))obraSel=(S.obras[0]||{}).id||'';
+ const sel=`<select onchange="obraSel=this.value;render()">${S.obras.map(o=>`<option value="${o.id}" ${o.id===obraSel?'selected':''}>${esc(o.nome)}</option>`).join('')}</select>`;
+ const list=Object.values(S.rdos).filter(r=>r.obraId===obraSel&&r.data>=p.ini&&r.data<=p.fim).sort((a,b)=>a.data<b.data?1:-1);
+ return head('Diário de Obra (RDO)','Relatório diário: clima, equipe, serviços executados e ocorrências.',`<button class="b p" onclick="editRdo()">+ Novo RDO</button>`)+pbar(sel)+
+ (list.length?list.map(r=>`<div class="card"><div class="top"><div><b>RDO nº ${rdoNum(r)} · ${wd(r.data)}, ${br(r.data)}</b><br><small>Clima: ${esc(r.cm)} / ${esc(r.ct)} · Equipe: ${equipe(r).length} pessoa(s)</small></div><div><button class="b sm" onclick="printRdo('${r.data}')">Imprimir</button> <button class="b sm" onclick="editRdo('${r.data}')">Editar</button></div></div><p style="white-space:pre-wrap;margin:10px 0 0">${esc(r.ativ)||'<i>Sem atividades descritas</i>'}</p></div>`).join(''):'<div class="empty"><b>Nenhum RDO neste período</b><p>Toque em "Novo RDO" para registrar o dia.</p></div>')};
+const rk=(o,d)=>o+'|'+d;
+function equipe(r){return S.workers.filter(w=>{const s=S.shifts[sk(w.id,r.obraId,r.data)];return s&&(s.m||s.t)}).map(w=>{const s=S.shifts[sk(w.id,r.obraId,r.data)];return{w,t:s.m&&s.t?'Dia completo':s.m?'Manhã':'Tarde'}})}
+function rdoNum(r){return Object.values(S.rdos).filter(x=>x.obraId===r.obraId&&x.data<=r.data).length}
+function editRdo(data){const d=data||iso(new Date()),r=S.rdos[rk(obraSel,d)]||{obraId:obraSel,data:d,cm:'Bom',ct:'Bom',terreno:'Praticável',fotos:[]};
+ const clima=id=>`<select id="${id}">${['Bom','Nublado','Chuva fraca','Chuva forte'].map(c=>`<option ${r[id.slice(2)]===c?'selected':''}>${c}</option>`).join('')}</select>`;
+ openDlg(`<h3>Diário de Obra · ${esc(oNome(obraSel))}</h3><label>DATA</label><input type="date" id="r_data" value="${r.data}" ${data?'disabled':''} onchange="rdoEq()">
+ <div class="row"><div><label>CLIMA MANHÃ</label>${clima('r_cm')}</div><div><label>CLIMA TARDE</label>${clima('r_ct')}</div></div>
+ <label>CONDIÇÃO DO TERRENO/TRABALHO</label><select id="r_terreno">${['Praticável','Parcialmente praticável','Impraticável'].map(c=>`<option ${r.terreno===c?'selected':''}>${c}</option>`).join('')}</select>
+ <label>EQUIPE PRESENTE (vem das diárias)</label><div id="r_eq" class="card" style="padding:10px;margin:0"></div>
+ <label>ATIVIDADES EXECUTADAS</label><textarea id="r_ativ" rows="4">${esc(r.ativ||'')}</textarea>
+ <label>EQUIPAMENTOS E MATERIAIS UTILIZADOS</label><textarea id="r_equip" rows="2">${esc(r.equip||'')}</textarea>
+ <label>OCORRÊNCIAS / PROBLEMAS</label><textarea id="r_ocor" rows="2">${esc(r.ocor||'')}</textarea>
+ <label>RESPONSÁVEL</label><input id="r_resp" value="${esc(r.resp||'')}">
+ <label>FOTOS</label><input type="file" accept="image/*" multiple id="r_fotos"><div class="thumbs" id="r_th">${(r.fotos||[]).map(f=>`<img src="${f}">`).join('')}</div>
+ <div style="margin-top:16px;display:flex;justify-content:space-between"><span>${data?`<button class="b" onclick="delRdo('${data}')">Excluir</button>`:''}</span><span><button class="b" onclick="$('#dlg').close()">Cancelar</button> <button class="b p" onclick="saveRdo(${data?1:0})">Salvar</button></span></div>`);rdoEq()}
+function rdoEq(){const eq=equipe({obraId:obraSel,data:$('#r_data').value});$('#r_eq').innerHTML=eq.length?eq.map(e=>`${esc(e.w.nome)} <small>(${esc(e.w.funcao)} · ${e.t})</small>`).join('<br>'):'<small>Ninguém marcado nas Diárias para este dia.</small>'}
+async function saveRdo(edit){const d=$('#r_data').value,k=rk(obraSel,d),old=S.rdos[k]||{fotos:[]};
+ const novas=await Promise.all([...$('#r_fotos').files].map(resize));
+ S.rdos[k]={obraId:obraSel,data:d,cm:$('#r_cm').value,ct:$('#r_ct').value,terreno:$('#r_terreno').value,ativ:$('#r_ativ').value,equip:$('#r_equip').value,ocor:$('#r_ocor').value,resp:$('#r_resp').value,fotos:[...(old.fotos||[]),...novas]};
+ save();$('#dlg').close();ref=new Date(d+'T12:00');render()}
+function delRdo(d){if(confirm('Excluir este RDO?')){delete S.rdos[rk(obraSel,d)];save();$('#dlg').close();render()}}
+function printRdo(d){const r=S.rdos[rk(obraSel,d)],eq=equipe(r);
+ printHTML('RDO '+br(d),`<h1>RELATÓRIO DIÁRIO DE OBRA (RDO) nº ${rdoNum(r)}</h1><table><tr><td><b>Obra:</b> ${esc(oNome(r.obraId))}</td><td><b>Data:</b> ${wd(d)}, ${br(d)}</td></tr><tr><td><b>Clima manhã:</b> ${esc(r.cm)} · <b>tarde:</b> ${esc(r.ct)}</td><td><b>Terreno:</b> ${esc(r.terreno)}</td></tr></table>
+ <h3>Equipe presente (${eq.length})</h3><table><tr><th>Nome</th><th>Função</th><th>Período</th></tr>${eq.map(e=>`<tr><td>${esc(e.w.nome)}</td><td>${esc(e.w.funcao)}</td><td>${e.t}</td></tr>`).join('')}</table>
+ <h3>Atividades executadas</h3><p style="white-space:pre-wrap">${esc(r.ativ)}</p><h3>Equipamentos e materiais</h3><p style="white-space:pre-wrap">${esc(r.equip)}</p><h3>Ocorrências</h3><p style="white-space:pre-wrap">${esc(r.ocor)}</p>
+ <h3>Fotos</h3>${(r.fotos||[]).map(f=>`<img src="${f}">`).join('')}<br><br><br><p>_______________________________<br>${esc(r.resp)||'Responsável'}</p>`)}
+// ---------- util
+function resize(file){return new Promise(res=>{const img=new Image,fr=new FileReader;fr.onload=()=>{img.onload=()=>{const k=Math.min(1,900/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=img.width*k;c.height=img.height*k;c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.6))};img.src=fr.result};fr.readAsDataURL(file)})}
+function openDlg(h){$('#dlg').innerHTML=h;$('#dlg').showModal()}
+render();
+</script>
+</body>
+</html>
