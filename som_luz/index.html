@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jota P Entretenimento | Som, Luz e Eventos</title>
+<meta name="description" content="Sonorização, iluminação, palco e estrutura para festas, shows e eventos. Peça seu orçamento pelo WhatsApp.">
+<style>
+:root{--bg:#09070f;--card:#15111f;--tx:#f5f3fa;--mut:#a59fb8;--p:#9b5cff;--a:#ffb020;--k:#ff3d81;--ln:#2a2340}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx);line-height:1.55}
+a{color:inherit;text-decoration:none}.w{max-width:1100px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;background:#09070fee;backdrop-filter:blur(8px);border-bottom:1px solid var(--ln);z-index:9}
+header .w{display:flex;justify-content:space-between;align-items:center;height:64px}
+.logo{font-weight:900;font-size:21px}.logo span{color:var(--a)}
+nav{display:flex;gap:22px;font-size:14px;color:var(--mut)}nav a:hover{color:#fff}
+.btn{display:inline-block;background:linear-gradient(90deg,var(--p),var(--k));color:#fff;font-weight:800;padding:12px 22px;border-radius:99px;border:0;cursor:pointer;font-size:15px}
+.btn.o{background:none;border:1px solid var(--ln)}
+.hero{position:relative;overflow:hidden;padding:100px 0 90px;background:radial-gradient(800px 420px at 80% -10%,#9b5cff44,transparent),radial-gradient(600px 380px at 0 100%,#ff3d8130,transparent)}
+.beam{position:absolute;top:-40px;width:140px;height:520px;background:linear-gradient(#ffb02055,transparent);filter:blur(18px);transform-origin:top;animation:sw 6s ease-in-out infinite alternate}
+.beam:nth-of-type(1){right:20%}.beam:nth-of-type(2){right:8%;background:linear-gradient(#9b5cff66,transparent);animation-delay:-2s}.beam:nth-of-type(3){right:33%;background:linear-gradient(#ff3d8155,transparent);animation-delay:-4s}
+@keyframes sw{from{transform:rotate(-22deg)}to{transform:rotate(22deg)}}
+.hero .w{position:relative}
+.hero h1{font-size:clamp(34px,6vw,62px);line-height:1.05;margin:0 0 16px;max-width:720px}
+.hero h1 em{font-style:normal;color:var(--a)}.hero p{color:var(--mut);font-size:19px;max-width:540px;margin:0 0 28px}
+section{padding:64px 0}h2{font-size:32px;margin:0 0 8px}.lead{color:var(--mut);margin:0 0 30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:24px}
+.card .i{font-size:34px;margin-bottom:10px}.card h3{margin:0 0 6px}.card p{margin:0;color:var(--mut);font-size:14px}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.gal div{aspect-ratio:4/3;border-radius:14px;background:linear-gradient(135deg,#2a1f4d,#4b1f43);display:grid;place-items:center;color:var(--mut);font-size:13px;border:1px dashed var(--ln)}
+.form{background:var(--card);border:1px solid var(--ln);border-radius:18px;padding:26px;max-width:640px}
+.r{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:block;font-size:13px;color:var(--mut);margin:14px 0 5px}
+input,select,textarea{width:100%;font:inherit;padding:12px;border-radius:10px;border:1px solid var(--ln);background:#0d0a15;color:#fff;color-scheme:dark}
+footer{border-top:1px solid var(--ln);padding:30px 0;color:var(--mut);font-size:14px}footer .w{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.fab{position:fixed;right:18px;bottom:18px;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;font-size:28px;box-shadow:0 6px 20px #0008;z-index:9}
+@media(max-width:700px){nav{display:none}.r{grid-template-columns:1fr}.hero{padding:60px 0 54px}}
+@media(prefers-reduced-motion:reduce){.beam{animation:none}}
+</style>
+</head>
+<body>
+<header><div class="w"><a class="logo" href="#">JOTA P <span>ENTRETENIMENTO</span></a>
+<nav><a href="#servicos">Serviços</a><a href="#eventos">Eventos</a><a href="#orcamento">Orçamento</a><a href="#contato">Contato</a></nav>
+<a class="btn" href="#orcamento">Pedir orçamento</a></div></header>
+
+<div class="hero"><span class="beam"></span><span class="beam"></span><span class="beam"></span><div class="w">
+<h1>Som e luz que fazem o seu evento <em>ser lembrado</em>.</h1>
+<p>Sonorização, iluminação, palco e estrutura para festas, shows, casamentos e eventos corporativos.</p>
+<a class="btn" href="#orcamento">Quero um orçamento</a> <a class="btn o" href="#servicos">Ver serviços</a></div></div>
+
+<section id="servicos"><div class="w"><h2>Nossos serviços</h2><p class="lead">Equipamento de qualidade e equipe técnica no seu evento.</p>
+<div class="grid">
+<div class="card"><div class="i">🔊</div><h3>Sonorização</h3><p>Caixas, mesas, microfones e técnico para o seu evento soar bem.</p></div>
+<div class="card"><div class="i">💡</div><h3>Iluminação</h3><p>Refletores, moving heads, laser e efeitos para criar o clima.</p></div>
+<div class="card"><div class="i">🎤</div><h3>Shows e DJ</h3><p>Estrutura completa para bandas, DJs e apresentações.</p></div>
+<div class="card"><div class="i">🏗️</div><h3>Palco e estrutura</h3><p>Palcos, tendas, painéis de LED e treliças.</p></div>
+<div class="card"><div class="i">💍</div><h3>Casamentos e festas</h3><p>Som ambiente, cerimônia e pista de dança.</p></div>
+<div class="card"><div class="i">🏢</div><h3>Eventos corporativos</h3><p>Convenções, palestras, inaugurações e lançamentos.</p></div>
+</div></div></section>
+
+<section id="eventos" style="background:#07050c"><div class="w"><h2>Eventos que a gente já fez</h2><p class="lead">Troque estes espaços pelas suas fotos.</p>
+<div class="gal"><div>foto do evento</div><div>foto do evento</div><div>foto do evento</div><div>foto do evento</div><div>foto do evento</div><div>foto do evento</div></div></div></section>
+
+<section id="orcamento"><div class="w"><h2>Peça seu orçamento</h2><p class="lead">Informe os dados do evento e continue pelo WhatsApp.</p>
+<form class="form" onsubmit="return enviar(event)">
+<label>Seu nome</label><input id="nome" required>
+<div class="r"><div><label>Tipo de evento</label><select id="tipo"><option>Casamento</option><option>Aniversário / Festa</option><option>Show</option><option>Evento corporativo</option><option>Formatura</option><option>Outro</option></select></div>
+<div><label>Data</label><input id="data" type="date"></div></div>
+<div class="r"><div><label>Local / cidade</label><input id="local"></div><div><label>Nº de convidados</label><input id="conv" inputmode="numeric"></div></div>
+<label>O que precisa?</label><select id="serv"><option>Som</option><option>Luz</option><option>Som + Luz</option><option>Som + Luz + Palco</option><option>Ainda não sei</option></select>
+<label>Detalhes</label><textarea id="det" rows="3"></textarea>
+<br><button class="btn" type="submit">Enviar pelo WhatsApp</button></form></div></section>
+
+<footer id="contato"><div class="w"><div><b>Jota P Entretenimento</b><br>Som, luz e eventos</div>
+<div>WhatsApp: <a href="#" class="zap">(00) 00000-0000</a><br>Instagram: <a href="#">@jotapentretenimento</a></div></div></footer>
+<a class="fab zap" href="#" aria-label="WhatsApp">💬</a>
+<script>
+// TODO: troque pelo número real, com DDI e DDD, só dígitos. Ex.: 5575999999999
+const WHATSAPP='5500000000000';
+const link=t=>`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(t)}`;
+document.querySelectorAll('.zap').forEach(a=>a.href=link('Olá! Vim pelo site da Jota P Entretenimento e gostaria de um orçamento.'));
+function enviar(e){e.preventDefault();const v=id=>document.getElementById(id).value.trim();
+ const d=v('data')?v('data').split('-').reverse().join('/'):'a definir';
+ location.href=link(`Olá! Sou ${v('nome')}.\nEvento: ${v('tipo')}\nData: ${d}\nLocal: ${v('local')||'—'}\nConvidados: ${v('conv')||'—'}\nPreciso de: ${v('serv')}\nDetalhes: ${v('det')||'—'}`);return false}
+</script>
+</body>
+</html>
