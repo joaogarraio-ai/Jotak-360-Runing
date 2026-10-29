@@ -110,7 +110,7 @@ def barras_cmyk(d, x, y, w, h, prog=1.0):
 W, H = 1080, 1350
 
 
-def card_base(titulo_linhas, destaque, cor, extra=None, cta="Peça o seu orçamento grátis", h=H):
+def card_base(titulo_linhas, destaque, cor, extra=None, cta="Peça seu orçamento grátis", h=H):
     dy = (h - H) // 2          # no Story (1920) o conteúdo fica nas zonas seguras
     img = fundo(W, h)
     d = ImageDraw.Draw(img)
@@ -143,7 +143,7 @@ def card_dica(h=H):
     barras_cmyk(d, 0, 0, W, 18)
     logo(d, W / 2, 150 + dy, 0.8)
     texto(d, (W / 2, 420 + dy), "3 ERROS AO ENVIAR", font("Black", 84), WHITE)
-    texto(d, (W / 2, 515 + dy), "O FICHEIRO PARA IMPRESSÃO", font("Black", 62), C)
+    texto(d, (W / 2, 515 + dy), "O ARQUIVO PARA IMPRESSÃO", font("Black", 62), C)
     y = 660 + dy
     for n, (t, cor) in enumerate((("Resolução baixa (use 300 dpi)", C),
                                   ("Sem sangria (3 mm de margem)", M),
@@ -154,7 +154,7 @@ def card_dica(h=H):
         texto(d, (215, y), t, ajustar(d, t, "Bold", 44, 780), WHITE, anchor="lm")
         y += 150
     texto(d, (W / 2, 1100 + dy), "Guarde este post para depois!", font("SemiBold", 44), GREY)
-    botao(d, W / 2, 1190 + dy, "Dúvidas? Fale connosco", 760, tam=40)
+    botao(d, W / 2, 1190 + dy, "Dúvidas? Fale conosco", 760, tam=40)
     texto(d, (W / 2, 1260 + dy), f"{CONTACTO}  |  {ENDERECO}", ajustar(d, f"{CONTACTO}  |  {ENDERECO}", "SemiBold", 34, 980), GREY)
     texto(d, (W / 2, 1305 + dy), f"Instagram {INSTAGRAM}  |  TikTok {TIKTOK}", ajustar(d, f"Instagram {INSTAGRAM}  |  TikTok {TIKTOK}", "SemiBold", 28, 980), GREY)
     barras_cmyk(d, 0, h - 18, W, 18)
@@ -166,19 +166,19 @@ def gerar_cards():
     os.makedirs(STORIES, exist_ok=True)
     defs = {
         "01_cartoes_de_visita": (["CARTÕES", "DE VISITA"], "QUE IMPRESSIONAM", C,
-                                 ["Papel premium, acabamento perfeito", "Entrega rápida"], "Peça o seu orçamento grátis"),
-        "02_lonas_e_banners": (["LONAS E", "BANNERS"], "A SUA FACHADA EM DESTAQUE", M,
-                               ["Alta resolução, cores vivas", "Resistentes ao sol e à chuva"], "Peça o seu orçamento grátis"),
-        "03_tshirts_e_brindes": (["T-SHIRTS E", "BRINDES"], "COM O SEU LOGO", Y,
-                                 ["Para a sua equipa, evento ou negócio", "Pedidos a partir de 1 unidade"], "Peça o seu orçamento grátis"),
-        "04_autocolantes": (["AUTOCOLANTES", "E ETIQUETAS"], "SOB MEDIDA", C,
-                            ["Qualquer forma, qualquer tamanho", "Ideais para embalagens e viaturas"], "Peça o seu orçamento grátis"),
+                                 ["Papel premium, acabamento perfeito", "Entrega rápida"], "Peça seu orçamento grátis"),
+        "02_lonas_e_banners": (["LONAS E", "BANNERS"], "SUA FACHADA EM DESTAQUE", M,
+                               ["Alta resolução, cores vivas", "Resistentes ao sol e à chuva"], "Peça seu orçamento grátis"),
+        "03_tshirts_e_brindes": (["CAMISETAS E", "BRINDES"], "COM A SUA LOGO", Y,
+                                 ["Para a sua equipe, evento ou negócio", "Pedidos a partir de 1 unidade"], "Peça seu orçamento grátis"),
+        "04_autocolantes": (["ADESIVOS", "E ETIQUETAS"], "SOB MEDIDA", C,
+                            ["Qualquer forma, qualquer tamanho", "Ideais para embalagens e viaturas"], "Peça seu orçamento grátis"),
         "05_flyers_e_catalogos": (["FLYERS E", "CATÁLOGOS"], "DIVULGUE O SEU NEGÓCIO", M,
-                                  ["Do design à impressão", "Preços especiais para quantidades"], "Peça o seu orçamento grátis"),
+                                  ["Do design à impressão", "Preços especiais para quantidades"], "Peça seu orçamento grátis"),
         "06_sorteio": (["SORTEIO", "100 CARTÕES"], "GRÁTIS!", Y,
                        ["1. Siga as nossas 3 páginas", "2. Curta este post", "3. Marque 2 amigos"], "Participe agora"),
         "07_orcamento_gratis": (["SEU PROJETO", "IMPRESSO"], "ORÇAMENTO GRÁTIS", M,
-                                ["Envie a sua ideia e respondemos já", "Atendimento rápido"], "Fale connosco"),
+                                ["Envie sua ideia e respondemos já", "Atendimento rápido"], "Fale conosco"),
     }
     for nome, (linhas, dest, cor, extra, cta) in defs.items():
         card_base(linhas, dest, cor, extra, cta).save(os.path.join(CARDS, nome + ".png"))
@@ -215,7 +215,7 @@ def cena_base(t):
     return img, d
 
 
-def final_cta(d, t, ini, texto_cta="Peça o seu orçamento grátis"):
+def final_cta(d, t, ini, texto_cta="Peça seu orçamento grátis"):
     k = seg(t, ini, 0.5)
     logo(d, VW / 2, 760, 1.5, k)
     botao(d, VW / 2, 1150, texto_cta, 900, alpha=k, tam=46)
@@ -232,7 +232,7 @@ def poster(w, h):
     d.rectangle((0, 0, w, h * 0.34), fill=C)
     d.ellipse((w * 0.55, -h * 0.05, w * 1.1, h * 0.28), fill=RED_ESCURO)
     d.ellipse((-w * 0.1, h * 0.15, w * 0.4, h * 0.45), fill=(40, 40, 46))
-    texto(d, (w / 2, h * 0.52), "A SUA MARCA", ajustar(d, "A SUA MARCA", "Black", 110, w - 80), (20, 20, 25))
+    texto(d, (w / 2, h * 0.52), "SUA MARCA", ajustar(d, "SUA MARCA", "Black", 110, w - 80), (20, 20, 25))
     texto(d, (w / 2, h * 0.62), "EM DESTAQUE", ajustar(d, "EM DESTAQUE", "Black", 110, w - 80), C)
     barras_cmyk(d, 60, h * 0.72, w - 120, 36)
     texto(d, (w / 2, h * 0.84), "Impressão de alta qualidade", font("SemiBold", 40), (70, 70, 80))
@@ -278,7 +278,7 @@ def video_servicos(t):
     img, d = cena_base(t)
     logo(d, VW / 2, 230, 1.0, seg(t, 0.1))
     texto(d, (VW / 2, 520), "O QUE IMPRIMIMOS", font("Black", 76), C, alpha=seg(t, 0.5))
-    itens = ["Cartões de visita", "Lonas e banners", "Autocolantes", "T-shirts e brindes", "Flyers e catálogos"]
+    itens = ["Cartões de visita", "Lonas e banners", "Adesivos", "Camisetas e brindes", "Flyers e catálogos"]
     cores = [C, M, Y, C, M]
     for i, (it, cor) in enumerate(zip(itens, cores)):
         k = seg(t, 1.2 + i * 0.9, 0.5)
@@ -325,8 +325,8 @@ def video_sorteio(t):
 
 def video_dica(t):
     img, d = cena_base(t)
-    texto(d, (VW / 2, 260), "ESTÁ A ENVIAR O", font("Black", 84), WHITE, alpha=seg(t, 0.1))
-    texto(d, (VW / 2, 360), "FICHEIRO ERRADO?", font("Black", 100), C, alpha=seg(t, 0.4))
+    texto(d, (VW / 2, 260), "ESTÁ ENVIANDO O", font("Black", 84), WHITE, alpha=seg(t, 0.1))
+    texto(d, (VW / 2, 360), "ARQUIVO ERRADO?", font("Black", 100), C, alpha=seg(t, 0.4))
     erros = [("1", "Resolução baixa", "Use 300 dpi", C),
              ("2", "Sem sangria", "Deixe 3 mm de margem", M),
              ("3", "Cores em RGB", "Converta para CMYK", Y)]
@@ -345,7 +345,7 @@ def video_dica(t):
         fade = seg(t, 8.0, 0.5)
         img = Image.blend(img, Image.new("RGB", (VW, VH), BG), fade)
         d = ImageDraw.Draw(img)
-        final_cta(d, t, 8.5, "Dúvidas? Fale connosco")
+        final_cta(d, t, 8.5, "Dúvidas? Fale conosco")
     return img
 
 
@@ -397,7 +397,7 @@ def video_cartoes(t):
         colar_rotacionado(img, c, cx, cy, angs[i] * k)
     d = ImageDraw.Draw(img)
     if t > 7.0:
-        return sair_para_cta(img, t, 7.0, "Peça o seu orçamento grátis")
+        return sair_para_cta(img, t, 7.0, "Peça seu orçamento grátis")
     return img
 
 
@@ -412,9 +412,9 @@ def tshirt(d, cx, cy, esc, cor):
 
 def video_tshirt(t):
     img, d = cena_base(t)
-    texto(d, (VW / 2, 230), "T-SHIRTS PERSONALIZADAS", ajustar(d, "T-SHIRTS PERSONALIZADAS", "Black", 84, 980),
+    texto(d, (VW / 2, 230), "CAMISETAS PERSONALIZADAS", ajustar(d, "CAMISETAS PERSONALIZADAS", "Black", 84, 980),
           WHITE, alpha=seg(t, 0.1))
-    texto(d, (VW / 2, 330), "COM O SEU LOGO", font("Black", 92), C, alpha=seg(t, 0.4))
+    texto(d, (VW / 2, 330), "COM A SUA LOGO", font("Black", 92), C, alpha=seg(t, 0.4))
     camisas = [(235, 235, 232), (30, 30, 40), C, M]
     idx = min(int(max(0, t - 3.0) / 1.2), 3) if t >= 3.0 else 0
     base = camisas[idx]
@@ -436,7 +436,7 @@ def video_tshirt(t):
     legenda = "Qualquer cor. Qualquer logo." if t < 7 else ""
     texto(d, (VW / 2, 1560), legenda, font("SemiBold", 50), GREY, alpha=seg(t, 3.2) * (1 - seg(t, 6.6, 0.4)))
     if t > 7.0:
-        return sair_para_cta(img, t, 7.0, "Peça o seu orçamento grátis")
+        return sair_para_cta(img, t, 7.0, "Peça seu orçamento grátis")
     return img
 
 
@@ -464,15 +464,15 @@ def video_lona(t):
         texto(d, (VW / 2, y0 + 205), "AQUI O SEU NOME EM DESTAQUE", font("Bold", 36), WHITE)
     texto(d, (VW / 2, 1740), "Lonas e banners sob medida", font("SemiBold", 48), GREY, alpha=seg(t, 4.8))
     if t > 7.5:
-        return sair_para_cta(img, t, 7.5, "Peça o seu orçamento grátis")
+        return sair_para_cta(img, t, 7.5, "Peça seu orçamento grátis")
     return img
 
 
 def video_orcamento(t):
     img, d = cena_base(t)
-    texto(d, (VW / 2, 230), "COMO PEDIR O SEU", font("Black", 90), WHITE, alpha=seg(t, 0.1))
+    texto(d, (VW / 2, 230), "COMO PEDIR SEU", font("Black", 90), WHITE, alpha=seg(t, 0.1))
     texto(d, (VW / 2, 340), "ORÇAMENTO", font("Black", 130), C, alpha=seg(t, 0.4))
-    passos = [("1", "Envie a sua ideia", "Pelo WhatsApp ou na loja", C),
+    passos = [("1", "Envie sua ideia", "Pelo WhatsApp ou na loja", C),
               ("2", "Receba o orçamento", "Grátis e sem compromisso", M),
               ("3", "Aprove o design", "Mostramos a prova antes", Y),
               ("4", "Receba o pedido", "Rápido, com qualidade", C)]
@@ -488,7 +488,7 @@ def video_orcamento(t):
         texto(d, (300 + dx, y - 28), t1, ajustar(d, t1, "Black", 62, 680), WHITE, anchor="lm")
         texto(d, (300 + dx, y + 40), t2, font("SemiBold", 42), cor, anchor="lm")
     if t > 8.0:
-        return sair_para_cta(img, t, 8.0, "Fale connosco agora")
+        return sair_para_cta(img, t, 8.0, "Fale conosco agora")
     return img
 
 
