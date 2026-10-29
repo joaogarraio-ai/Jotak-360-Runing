@@ -3,7 +3,7 @@
 Uso:  python3 marketing/gerar.py
 Saída: marketing/cards/*.png (1080x1350)  e  marketing/videos/*.mp4 (1080x1920)
 
-Edite CONTACTO e CIDADE abaixo e volte a correr o script.
+Edite CONTACTO, ENDERECO e os perfis abaixo e volte a correr o script.
 """
 import math
 import os
@@ -11,8 +11,10 @@ import subprocess
 
 from PIL import Image, ImageDraw, ImageFont
 
-CONTACTO = "WhatsApp: (00) 00000-0000"   # <- troque pelo seu contacto
-CIDADE = "Sua cidade"                    # <- troque pela sua cidade
+CONTACTO = "WhatsApp: (75) 98106-5204"
+ENDERECO = "Praça Araújo Pinho, 45"
+INSTAGRAM = "@jotakimpressosgrafica"
+TIKTOK = "@jotakimpressos"
 MARCA = "JOTA K"
 SUB = "IMPRESSOS"
 
@@ -128,7 +130,8 @@ def card_base(titulo_linhas, destaque, cor, extra=None, cta="Peça o seu orçame
             texto(d, (W / 2, y), e, font("SemiBold", 46), GREY)
             y += 62
     botao(d, W / 2, 1175 + dy, cta, 880)
-    texto(d, (W / 2, 1265 + dy), f"{CONTACTO}  |  {CIDADE}", font("SemiBold", 36), GREY)
+    texto(d, (W / 2, 1255 + dy), f"{CONTACTO}  |  {ENDERECO}", ajustar(d, f"{CONTACTO}  |  {ENDERECO}", "SemiBold", 34, 980), GREY)
+    texto(d, (W / 2, 1300 + dy), f"Instagram {INSTAGRAM}  |  TikTok {TIKTOK}", ajustar(d, f"Instagram {INSTAGRAM}  |  TikTok {TIKTOK}", "SemiBold", 28, 980), GREY)
     barras_cmyk(d, 0, h - 18, W, 18)
     return img
 
@@ -152,7 +155,8 @@ def card_dica(h=H):
         y += 150
     texto(d, (W / 2, 1100 + dy), "Guarde este post para depois!", font("SemiBold", 44), GREY)
     botao(d, W / 2, 1190 + dy, "Dúvidas? Fale connosco", 760, tam=40)
-    texto(d, (W / 2, 1290 + dy), f"{CONTACTO}  |  {CIDADE}", font("SemiBold", 34), GREY)
+    texto(d, (W / 2, 1260 + dy), f"{CONTACTO}  |  {ENDERECO}", ajustar(d, f"{CONTACTO}  |  {ENDERECO}", "SemiBold", 34, 980), GREY)
+    texto(d, (W / 2, 1305 + dy), f"Instagram {INSTAGRAM}  |  TikTok {TIKTOK}", ajustar(d, f"Instagram {INSTAGRAM}  |  TikTok {TIKTOK}", "SemiBold", 28, 980), GREY)
     barras_cmyk(d, 0, h - 18, W, 18)
     return img
 
@@ -216,9 +220,10 @@ def final_cta(d, t, ini, texto_cta="Peça o seu orçamento grátis"):
     logo(d, VW / 2, 760, 1.5, k)
     botao(d, VW / 2, 1150, texto_cta, 900, alpha=k, tam=46)
     texto(d, (VW / 2, 1290), CONTACTO, font("Bold", 48), WHITE, alpha=seg(t, ini + 0.3, 0.5))
-    texto(d, (VW / 2, 1360), CIDADE, font("SemiBold", 40), GREY, alpha=seg(t, ini + 0.4, 0.5))
-    texto(d, (VW / 2, 1500), "Siga-nos: Instagram | TikTok | Facebook", font("SemiBold", 38), GREY,
-          alpha=seg(t, ini + 0.6, 0.5))
+    texto(d, (VW / 2, 1360), "Praça Araújo Pinho, nº 45", font("SemiBold", 42), GREY, alpha=seg(t, ini + 0.4, 0.5))
+    texto(d, (VW / 2, 1490), "Siga-nos", font("Bold", 40), WHITE, alpha=seg(t, ini + 0.6, 0.5))
+    texto(d, (VW / 2, 1560), f"Instagram {INSTAGRAM}", font("SemiBold", 38), GREY, alpha=seg(t, ini + 0.7, 0.5))
+    texto(d, (VW / 2, 1620), f"TikTok {TIKTOK}", font("SemiBold", 38), GREY, alpha=seg(t, ini + 0.8, 0.5))
 
 
 def poster(w, h):
@@ -363,7 +368,7 @@ def cartao_visita(w=640, h=360, cor=C, nome=MARCA):
     texto(d, (w * 0.40, h * 0.34), nome, font("Black", 54), (20, 20, 25), anchor="lm")
     texto(d, (w * 0.40, h * 0.50), "IMPRESSOS & COM. VISUAL", font("Bold", 24), (110, 110, 120), anchor="lm")
     d.rectangle((w * 0.40, h * 0.62, w * 0.92, h * 0.635), fill=(200, 200, 205))
-    texto(d, (w * 0.40, h * 0.74), "geral@jotak.com", font("SemiBold", 28), (70, 70, 80), anchor="lm")
+    texto(d, (w * 0.40, h * 0.74), INSTAGRAM, ajustar(d, INSTAGRAM, "SemiBold", 28, 330), (70, 70, 80), anchor="lm")
     texto(d, (w * 0.40, h * 0.86), CONTACTO.replace("WhatsApp: ", ""), font("SemiBold", 28), (70, 70, 80), anchor="lm")
     return c
 
