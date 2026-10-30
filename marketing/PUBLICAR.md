@@ -2,6 +2,8 @@
 
 Você só precisa **agendar uma vez** (30 minutos) e as postagens saem sozinhas.
 
+Página do Facebook: https://www.facebook.com/profile.php?id=61595418736359
+
 ## Como agendar tudo de uma vez
 
 **Instagram e Facebook (grátis): Meta Business Suite**

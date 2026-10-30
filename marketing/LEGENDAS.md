@@ -1,6 +1,6 @@
 # Jotak Impressos: legendas, calendário e plano de impulsionamento
 
-Perfis: Instagram `@jotakimpressosgrafica` | TikTok `@jotakimpressos`
+Perfis: Instagram `@jotakimpressosgrafica` | TikTok `@jotakimpressos` | Facebook (Página): https://www.facebook.com/profile.php?id=61595418736359
 WhatsApp: (75) 98106-5204 | Praça Araújo Pinho, 45
 
 Link direto do WhatsApp (use na bio e nos anúncios): `https://wa.me/5575981065204`
