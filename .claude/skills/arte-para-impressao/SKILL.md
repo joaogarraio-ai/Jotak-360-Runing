@@ -22,7 +22,7 @@ banner/faixa ficam **reticuladas** (serrilhadas). Esta skill diagnostica e corri
    ```
    Opções:
    - `--dpi N` DPI alvo (padrão: o recomendado do produto; use `--produto banner|faixa|adesivo|cracha|placa|camiseta`).
-   - `--texto` reforça bordas de texto/logos (suaviza a escadinha dos pixels). Use em arte com cores chapadas e letras; **não** use em fotos.
+   - `--texto` afina bordas de texto/logos sem mudar as cores. Com `--foto x0,y0,x1,y1` (frações) a região do rosto/foto recebe só realce leve e fica fiel ao original. Não use em fotos puras.
    - `--sangria-mm 3` acrescenta sangria espelhando as bordas.
    - `--cmyk` converte para CMYK (aviso: conversão simples, sem perfil ICC).
    - Saída `.pdf`, `.tif` ou `.png`, já com o DPI e o tamanho físico gravados.

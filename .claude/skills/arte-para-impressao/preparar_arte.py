@@ -30,12 +30,30 @@ def veredito(dpi, minimo, recomendado):
     return "Crítico (refazer a arte ou pedir arquivo melhor)"
 
 
-def reforcar_texto(img, fator):
-    """Suaviza a escadinha dos pixels e restaura bordas nítidas (arte chapada)."""
-    img = img.filter(ImageFilter.GaussianBlur(radius=max(0.6, fator * 0.45)))
-    a = np.asarray(img).astype(np.float32) / 255.0
-    a = np.clip((a - 0.5) * 2.2 + 0.5, 0, 1)  # curva S: afina a transição das bordas
-    return Image.fromarray((a * 255).astype(np.uint8))
+def reforcar_texto(img, fator, passes=2):
+    """Afina bordas de texto/logos sem alterar tons: realce limitado ao min/max local."""
+    r = int(max(3, round(fator * 1.2))) | 1
+    for _ in range(passes):
+        base = img.filter(ImageFilter.GaussianBlur(radius=max(1.0, fator * 0.5)))
+        lo, hi = img.filter(ImageFilter.MinFilter(r)), img.filter(ImageFilter.MaxFilter(r))
+        u, bl, lo, hi = (np.asarray(x).astype(np.float32) for x in (img, base, lo, hi))
+        out = np.clip(u + 1.2 * (u - bl), lo, hi)
+        img = Image.fromarray(out.astype(np.uint8))
+    return img
+
+
+def aplicar_com_protecao(img, fator, foto):
+    """Texto/gráficos recebem reforço total; a região da foto (rosto) só um realce leve."""
+    gra = reforcar_texto(img, fator)
+    sua = img.filter(ImageFilter.UnsharpMask(radius=1.5, percent=35, threshold=3))
+    if not foto:
+        return gra
+    w, h = img.size
+    x0, y0, x1, y1 = foto
+    m = Image.new("L", (w, h), 0)
+    m.paste(255, (round(x0 * w), round(y0 * h), round(x1 * w), round(y1 * h)))
+    m = m.filter(ImageFilter.GaussianBlur(radius=w * 0.01))
+    return Image.composite(sua, gra, m)
 
 
 def com_sangria(img, mm, dpi):
@@ -52,6 +70,7 @@ def main():
     p.add_argument("--produto", choices=PRODUTOS, default="banner")
     p.add_argument("--dpi", type=int, help="DPI alvo (padrão: recomendado do produto)")
     p.add_argument("--texto", action="store_true", help="reforça bordas de texto/logos")
+    p.add_argument("--foto", help="região da foto/rosto a preservar, em frações x0,y0,x1,y1 (ex.: 0,0,0.4,1)")
     p.add_argument("--sangria-mm", type=float, default=0)
     p.add_argument("--cmyk", action="store_true")
     p.add_argument("--diagnostico", action="store_true", help="só analisa, não grava")
@@ -90,7 +109,8 @@ def main():
         img = img.resize((round(img.width * fator), round(img.height * fator)), Image.LANCZOS)
     img = ImageOps.fit(img, alvo, Image.LANCZOS)
     if a.texto and antes < dpi_alvo:
-        img = reforcar_texto(img, max(1.0, dpi_alvo / max(antes, 1)))
+        foto = tuple(float(v) for v in a.foto.split(",")) if a.foto else None
+        img = aplicar_com_protecao(img, max(1.0, dpi_alvo / max(antes, 1)), foto)
     elif not a.texto:
         img = img.filter(ImageFilter.UnsharpMask(radius=2, percent=60, threshold=2))
     if a.sangria_mm:
