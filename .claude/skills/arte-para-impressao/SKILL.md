@@ -39,3 +39,15 @@ banner/faixa ficam **reticuladas** (serrilhadas). Esta skill diagnostica e corri
 - Se o veredito for **Crítico** (< 50% do DPI mínimo), avise que o resultado será
   borrado e peça arquivo melhor ou refação da arte.
 - Sempre entregue um resumo: DPI antes → depois, o que foi feito e os riscos.
+
+## Método "fundo limpo + texto em vetor" (melhor resultado para banner/faixa)
+
+Usado no caso Isabela Sampaio (1600x800 px -> PDF 108x54 cm). Referência em `refazer_em_vetor/`:
+1. `step1.py` — apaga texto/logo/ícones do fundo (preenchimento suave) e guarda as máscaras.
+2. `build.py` — refaz o texto de fonte conhecida (Poppins, via Google Fonts) como **curvas**,
+   **vetoriza** (potrace) o que usa fonte exclusiva (manuscrito, logo, ícones) e monta o PDF:
+   fundo ampliado 4x + camada vetorial por cima.
+- Dependências: `pip install opencv-python-headless fonttools potracer reportlab`.
+- É um fluxo guiado: as caixas de texto e as fontes ficam no código, ajuste por arte.
+- Sempre compare antes/depois ampliado (pdftocairo -r 300) antes de entregar.
+- Fonte exclusiva não existe no PC: não "adivinhe" outra; vetorize o desenho original.
