@@ -81,7 +81,7 @@ for rg in [(790,30,1290,232),(640,265,1140,530),(1200,575,1455,722)]:
 # ---------------- logomarca SP (azul + dourado) ----------------
 LOGO=(985,30,1075,150)
 img8=np.asarray(Image.open('orig.webp').convert('RGB'))
-lb,lg,lcb,lcg=vec.unmix_two_inks(img8,LOGO,thr=(0.45,0.33))
+lb,lg,lcb,lcg,_r=vec.logo_with_font_S(img8,LOGO,'fonts2/LibreCaslonDisplay-Regular.ttf')
 traced.append((lg,BLUE if False else tuple(int(v) for v in lcg),True)); traced.append((lb,tuple(int(v) for v in lcb),True))
 print('logo cores',lcb,lcg)
 

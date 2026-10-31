@@ -74,3 +74,10 @@ Para artes simples sem texto importante, o atalho `preparar_arte.py` (diagnósti
 - **Sempre pedir o logo original em vetor (AI/PDF/SVG/CDR) ou PNG grande antes de refazer a arte.** Se vier, usar o original, sem redesenhar.
 - Sem original: `vec.unmix_two_inks` (separa as tintas, desfaz desfoque, limpa ilhas/frestas, suaviza contorno mantendo pontas de serifa). Avisar o cliente que é reconstrução de um logo pequeno e que o ideal é o arquivo original.
 - Conferir o logo a 400 dpi lado a lado com o original antes de entregar.
+
+### Logo de iniciais (monograma): usar a MESMA fonte do nome (descoberta do cliente)
+Logomarcas costumam usar a mesma fonte do nome/assinatura da marca. Método: (1) descobrir a fonte comparando
+o texto do nome com fontes serifadas/sem serifa (Google Fonts; Libre Caslon Display, Tinos≈Times, Cormorant, Belleza...)
+por sobreposição (dice); (2) ajustar cada letra do monograma à letra da fonte por transformação afim
+(`vec.logo_with_font_S`: S pela fonte, haste do P pelo "I" da fonte); (3) vetorizar o resultado (curvas exatas).
+Caso Isabela Sampaio: S = Libre Caslon Display (88% de sobreposição). Anel dourado e detalhes finos seguem do original.

@@ -355,3 +355,52 @@ def unmix_two_inks(img, box, F=8, sigma=0.35, thr=0.5, alphamax=0.95, opttol=0.5
     sp=[curves_to_ops(trace(m,alphamax,opttol,turd),F,x0,y0) for m in (blue_m,gold_m)]
     res = (sp[0],sp[1],tuple(np.round(Bc).astype(int)),tuple(np.round(Gc).astype(int)))
     return (res+(out,)) if return_maps else res
+
+# ---------------- monograma: S de fonte (curvas exatas) + haste do P e anel do original ----------------
+def logo_with_font_S(img, box, font_path, F=8, thr=(0.45,0.33), stem_region=(275,372)):
+    """S refeito com o desenho da fonte (ajustado ao S do logo por sobreposição); haste do P e anel dourado do original."""
+    from PIL import ImageFont, ImageDraw, Image as _I
+    from scipy.optimize import minimize
+    x0,y0,x1,y1 = box
+    b,g,cb,cg,maps = unmix_two_inks(img, box, thr=thr, return_maps=True)
+    Mb = maps[0]>0.5; h,w = Mb.shape
+    sx_,sy_ = stem_region
+    valid = np.ones_like(Mb); valid[sy_:,:sx_] = False
+    T = Mb & valid; ys,xs = np.nonzero(T); tb=(xs.min(),ys.min(),xs.max()+1,ys.max()+1)
+    size=900; f=ImageFont.truetype(font_path,size); im=_I.new('L',(size*2,size*2),0); ImageDraw.Draw(im).text((size//2,size//4),'S',font=f,fill=255)
+    a=np.asarray(im)>127; yy,xx=np.nonzero(a); G=a[yy.min():yy.max()+1,xx.min():xx.max()+1].astype(np.float32); gh,gw=G.shape
+    def dice(p):
+        sx,sy,sh,tx,ty=p; M=np.float32([[sx,sh,tx],[0,sy,ty]]); m=(cv2.warpAffine(G,M,(w,h),flags=cv2.INTER_AREA)>0.5)&valid
+        return -2*(m&T).sum()/(m.sum()+T.sum()+1e-9)
+    p0=[(tb[2]-tb[0])/gw,(tb[3]-tb[1])/gh,0,tb[0],tb[1]]
+    r=minimize(dice,p0,method='Powell',options=dict(xtol=1e-3,ftol=1e-4,maxiter=4000)); sx,sy,sh,tx,ty=r.x
+    # S em alta resolução; recortado onde o original não tem S (região da haste do P)
+    K=2; M=np.float32([[sx*K,sh*K,tx*K],[0,sy*K,ty*K]]); S_hi=cv2.warpAffine(G,M,(w*K,h*K),flags=cv2.INTER_AREA)>0.5
+    valid_hi = cv2.resize(valid.astype(np.uint8),(w*K,h*K),interpolation=cv2.INTER_NEAREST)>0
+    S_hi = S_hi & valid_hi
+    # haste do P: letra "I" da mesma fonte (haste + serifas), ajustada à haste do original
+    stem_t = cv2.resize((Mb & ~valid).astype(np.uint8),(w,h),interpolation=cv2.INTER_NEAREST)>0
+    colsum = stem_t[sy_:].sum(0); core = np.where(colsum > 0.5*colsum.max())[0]      # colunas da haste
+    sxlo,sxhi = max(core.min()-40,0), core.max()+40
+    stem_t = stem_t.copy(); stem_t[:, :max(sxlo-30,0)] = False
+    imI=_I.new('L',(size*2,size*2),0); ImageDraw.Draw(imI).text((size//2,size//4),'I',font=f,fill=255)
+    aI=np.asarray(imI)>127; yI,xI=np.nonzero(aI); GI=aI[yI.min():yI.max()+1,xI.min():xI.max()+1].astype(np.float32); ghI,gwI=GI.shape
+    ysS,xsS=np.nonzero(stem_t); tbI=(xsS.min(),ysS.min(),xsS.max()+1,ysS.max()+1)
+    def diceI(p):
+        sxx,syy,txx,tyy=p; MI=np.float32([[sxx,0,txx],[0,syy,tyy]]); m=cv2.warpAffine(GI,MI,(w,h),flags=cv2.INTER_AREA)>0.5
+        return -2*(m&stem_t).sum()/(m.sum()+stem_t.sum()+1e-9)
+    rI=minimize(diceI,[(tbI[2]-tbI[0])/gwI,(tbI[3]-tbI[1])/ghI,tbI[0],tbI[1]],method='Powell',options=dict(xtol=1e-3,ftol=1e-4,maxiter=3000))
+    sxx,syy,txx,tyy=rI.x; stem=cv2.warpAffine(GI,np.float32([[sxx*K,0,txx*K],[0,syy*K,tyy*K]]),(w*K,h*K),flags=cv2.INTER_AREA)>0.5
+    print('haste: dice %.3f'%-rI.fun)
+    stem = stem & ~S_hi
+    blue_hi = S_hi | stem
+    def to_art(ops_list):
+        out=[]
+        for ops in ops_list:
+            o2=[]
+            for op in ops:
+                v=op[1:]; o2.append((op[0],)+tuple((x0+val/(K*F)) if k%2==0 else (y0+val/(K*F)) for k,val in enumerate(v)))
+            out.append(o2)
+        return out
+    raw = curves_to_ops(trace(blue_hi,1.0,0.6,30),1,0,0)
+    return to_art(raw), g, cb, cg, r
