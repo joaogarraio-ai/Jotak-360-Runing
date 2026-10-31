@@ -66,6 +66,7 @@ excl=np.zeros((H,W),bool)
 for x0,y0,x1,y1 in icons_boxes: excl[y0:y1,x0:x1]=True
 for x0,y0,x1,y1 in [l[2] for l in LINES]: excl[y0:y1,x0:x1]=True
 excl|=tracedmask
+excl[28:152,983:1077]=True   # logomarca SP: vetorizada à parte (separação de 2 tintas)
 excl[704:722,1436:1456]=True   # emenda da linha do canto (já vetorizada como traço)
 traced=[]
 for rg in [(790,30,1290,232),(640,265,1140,530),(1200,575,1455,722)]:
@@ -76,6 +77,13 @@ for rg in [(790,30,1290,232),(640,265,1140,530),(1200,575,1455,722)]:
         if rg[1]==30: al=np.clip(al*1.45,0,1)          # logo/título: realça traços finos antes de vetorizar
         cur=vec.build_traced(al,rg,F=6,blur=(0.3 if rg[1]==30 else 0.5),alphamax=1.2,opttol=0.9,turd=(30 if rg[1]==30 else 80),thr=0.5)
         traced.append((cur,col,True)); print('trace',rg,col,'nós',vec.count_nodes(cur))
+
+# ---------------- logomarca SP (azul + dourado) ----------------
+LOGO=(985,30,1075,150)
+img8=np.asarray(Image.open('orig.webp').convert('RGB'))
+lb,lg,lcb,lcg=vec.unmix_two_inks(img8,LOGO,thr=(0.45,0.33))
+traced.append((lg,BLUE if False else tuple(int(v) for v in lcg),True)); traced.append((lb,tuple(int(v) for v in lcb),True))
+print('logo cores',lcb,lcg)
 
 # ---------------- fundo: suaviza parede (gradiente) e limpa a foto sem mexer no rosto ----------------
 bg2=np.asarray(Image.open('bg_clean2.png').convert('RGB'))

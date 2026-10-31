@@ -280,3 +280,78 @@ def fit_stroke(mask_alpha, box, F=4, tol=0.9, step=16, corner_deg=32, close_px=6
                 dv=S[idx]-S[nbr]; dv/=np.linalg.norm(dv)+1e-9; S[idx]=p+dv*30
         out.append(_bez_through(S))
     return out, L
+
+def smooth_mask(m, F, sigma_px, corner_deg=55):
+    """Suaviza o contorno (σ em px da arte) preservando cantos agudos (pontas de serifa); re-rasteriza."""
+    cs,h = cv2.findContours(m.astype(np.uint8), cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
+    out = np.zeros(m.shape, np.uint8); sg = sigma_px*F; k = int(4*sg)|1
+    for pass_hole in (False, True):
+        for i,c in enumerate(cs):
+            is_hole = h[0][i][3] != -1
+            if is_hole != pass_hole or len(c) < 12: continue
+            P = c[:,0,:].astype(np.float32); n=len(P)
+            # cantos: ângulo de giro numa janela de ~1.2 px da arte
+            wv=max(2,int(1.2*F)); v1=P-np.roll(P,wv,0); v2=np.roll(P,-wv,0)-P
+            cosang=(v1*v2).sum(1)/(np.linalg.norm(v1,axis=1)*np.linalg.norm(v2,axis=1)+1e-9)
+            ang=np.degrees(np.arccos(np.clip(cosang,-1,1))); corner=ang>corner_deg
+            # só o pico local de cada canto
+            peaks=corner & (ang>=np.maximum(np.roll(ang,1),np.roll(ang,-1))) & (ang>=np.roll(ang,2)) & (ang>=np.roll(ang,-2))
+            Q=P.copy()
+            for ax in (0,1):
+                pad=np.concatenate([P[-k:,ax],P[:,ax],P[:k,ax]]); ker=np.exp(-0.5*(np.arange(-k,k+1)/sg)**2); ker/=ker.sum()
+                Q[:,ax]=np.convolve(pad,ker,mode='same')[k:-k]
+            Q[peaks]=P[peaks]                      # mantém a ponta da serifa
+            cv2.fillPoly(out,[np.round(Q).astype(np.int32)],0 if pass_hole else 1)
+    return out>0
+
+# ---------------- logomarca bicolor (separação de cores por pixel) ----------------
+def unmix_two_inks(img, box, F=8, sigma=0.35, thr=0.5, alphamax=0.95, opttol=0.5, turd=20, return_maps=False, deconv=0.9, iters=25, close_b=2.0, close_g=2.5, smooth=0.45, norm=True, smooth_contour=0.9):
+    """Separa tinta A (mais escura/azul) e tinta B (dourada) do fundo claro por mínimos quadrados em cada pixel.
+    Devolve (subpaths_azul, subpaths_dourado, cor_azul, cor_dourada)."""
+    x0,y0,x1,y1 = box; crop = img[y0:y1,x0:x1].astype(np.float32); h,w,_ = crop.shape
+    border = np.concatenate([crop[0],crop[-1],crop[:,0],crop[:,-1]]); bgc = np.median(border,0)
+    d = (crop-bgc).reshape(-1,3); mag = np.linalg.norm(d,axis=1)
+    sel = d[mag>np.percentile(mag,80)]
+    # agrupa em 2 cores de tinta por tom (R-B) e escolhe o núcleo (mais forte) de cada
+    rb = sel[:,0]-sel[:,2]; blue = sel[rb<np.percentile(rb,40)]; gold = sel[rb>np.percentile(rb,85)]
+    Bc = bgc+np.median(blue[np.linalg.norm(blue,axis=1)>np.percentile(np.linalg.norm(blue,axis=1),60)],0)
+    Gc = bgc+np.median(gold[np.linalg.norm(gold,axis=1)>np.percentile(np.linalg.norm(gold,axis=1),50)],0)
+    M = np.stack([Bc-bgc, Gc-bgc],1)                        # 3x2
+    P = np.linalg.pinv(M)                                   # 2x3
+    ab = (d@P.T).reshape(h,w,2); ab = np.clip(ab,0,1.0)
+    if deconv:   # desfaz o desfoque do JPEG (Richardson-Lucy) -> recupera hastes finas e bordas nítidas
+        from skimage.restoration import richardson_lucy
+        r=int(np.ceil(3*deconv)); yy,xx=np.mgrid[-r:r+1,-r:r+1]; psf=np.exp(-(xx**2+yy**2)/(2*deconv**2)); psf/=psf.sum()
+        for k in range(2):
+            up=cv2.resize(ab[...,k],(w*4,h*4),interpolation=cv2.INTER_CUBIC); up=np.clip(up,1e-3,1)
+            psf4=cv2.resize(psf,(psf.shape[1]*4,psf.shape[0]*4),interpolation=cv2.INTER_CUBIC); psf4/=psf4.sum()
+            ab[...,k]=cv2.resize(np.clip(richardson_lucy(up,psf4,num_iter=iters,clip=False),0,1),(w,h),interpolation=cv2.INTER_AREA)
+    out=[]
+    for k in range(2):
+        a = cv2.resize(ab[...,k],(w*F,h*F),interpolation=cv2.INTER_CUBIC)
+        a = cv2.GaussianBlur(a,(0,0),F*sigma)
+        out.append(a)
+    def clean(m, close_px, min_island, min_hole, smooth):
+        m = m.astype(np.uint8)
+        if close_px: m = cv2.morphologyEx(m, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(int(close_px*F)|1,)*2))
+        # remove ilhas pequenas (ruído) e tampa buracos pequenos (frestas)
+        n,lab,st,_ = cv2.connectedComponentsWithStats(m,8)
+        for i in range(1,n):
+            if st[i,4] < min_island*F*F: m[lab==i]=0
+        inv = (1-m).astype(np.uint8); n,lab,st,_ = cv2.connectedComponentsWithStats(inv,4)
+        for i in range(1,n):
+            if st[i,4] < min_hole*F*F and not (st[i,0]==0 or st[i,1]==0 or st[i,0]+st[i,2]==m.shape[1] or st[i,1]+st[i,3]==m.shape[0]): m[lab==i]=1
+        return cv2.GaussianBlur(m.astype(np.float32),(0,0),F*smooth) > 0.5
+    thr_b, thr_g = (thr, thr) if np.isscalar(thr) else thr
+    def locnorm(a, floor, k=5):
+        lm = cv2.dilate(a, cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(int(k*F)|1,)*2))
+        return (a>floor) & (a>0.5*lm)
+    mb = locnorm(out[0], thr_b*0.6) if norm else out[0]>thr_b
+    mg = locnorm(out[1], thr_g*0.6) if norm else out[1]>thr_g
+    blue_m = clean(mb, close_b, 12, 25, smooth)
+    gold_m = clean(mg, close_g, 6, 10, smooth) & ~blue_m
+    if smooth_contour:
+        blue_m = smooth_mask(blue_m, F, smooth_contour); gold_m = smooth_mask(gold_m, F, smooth_contour) & ~blue_m
+    sp=[curves_to_ops(trace(m,alphamax,opttol,turd),F,x0,y0) for m in (blue_m,gold_m)]
+    res = (sp[0],sp[1],tuple(np.round(Bc).astype(int)),tuple(np.round(Gc).astype(int)))
+    return (res+(out,)) if return_maps else res

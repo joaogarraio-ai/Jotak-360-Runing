@@ -69,3 +69,8 @@ Regras do cliente (Jotak) — não negociáveis:
 Fluxo técnico e scripts de referência: `refazer_em_vetor/` (ver `LEIA-ME.md`). São guiados por arte:
 copiar para a pasta de trabalho e ajustar caixas, fontes e cores.
 Para artes simples sem texto importante, o atalho `preparar_arte.py` (diagnóstico/ampliação) basta.
+
+## LOGOMARCA = prioridade máxima (exigência do cliente)
+- **Sempre pedir o logo original em vetor (AI/PDF/SVG/CDR) ou PNG grande antes de refazer a arte.** Se vier, usar o original, sem redesenhar.
+- Sem original: `vec.unmix_two_inks` (separa as tintas, desfaz desfoque, limpa ilhas/frestas, suaviza contorno mantendo pontas de serifa). Avisar o cliente que é reconstrução de um logo pequeno e que o ideal é o arquivo original.
+- Conferir o logo a 400 dpi lado a lado com o original antes de entregar.
