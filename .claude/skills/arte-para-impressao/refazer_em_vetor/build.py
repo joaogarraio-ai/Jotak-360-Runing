@@ -79,19 +79,25 @@ for p,(text,fk,box) in zip(grp,[l for l in LINES if l[0] in[g[0] for g in grp]])
     placed.append((text,"Poppins-Medium",p[2],base,17.2,2.92,p[6],p[7]))
 
 # ---------- vetorização do restante ----------
-def trace_class(a,color,minarea=6):
+def trace_class(a,color,minarea=6,sig=0.35):
     big=cv2.resize(a,(W*F,H*F),interpolation=cv2.INTER_CUBIC)
-    big=cv2.GaussianBlur(big,(0,0),F*0.35)
+    big=cv2.GaussianBlur(big,(0,0),F*sig)
     bm=potrace.Bitmap(~(big>0.5))
     return bm.trace(turdsize=minarea*F, alphamax=1.0, opticurve=True, opttolerance=0.35)
 M=reg&~tracedmask
 paths=[]
+ex=np.load('extra.npz')
+paths.append((trace_class(ex['blob'].astype(np.float32),None),tuple(ex['BLOB'])))
+for (x0,y0,x1,y1),col in zip(ex['regs'],ex['cols']):
+    la=np.zeros((H,W),np.float32); la[y0:y1,x0:x1]=ex['line'][y0:y1,x0:x1]
+    thick=(x0==1330)  # contorno do coração (traço grosso, tom mais claro)
+    paths.append((trace_class(la,None,minarea=3,sig=0.9 if x0 in (1330,1420) else 0.5),tuple(col)))
 for a,col in ((aB*((cls==0)&M),BLUE),(aG*((cls==1)&M),GOLD)):
     a=np.where(a>0.12,a,0).astype(np.float32)
     paths.append((trace_class(a,col),col))
 
 # ---------- fundo ampliado ----------
-bgc=Image.open('bg_clean.png').convert('RGB')
+bgc=Image.open('bg_clean2.png').convert('RGB')
 big=bgc.resize((W*F,H*F),Image.LANCZOS)
 from PIL import ImageFilter
 big=big.filter(ImageFilter.UnsharpMask(radius=2,percent=35,threshold=3))

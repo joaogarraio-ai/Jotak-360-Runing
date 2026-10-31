@@ -1,6 +1,6 @@
 ---
 name: arte-para-impressao
-description: Prepara arte de baixa resolução (ex.: imagens geradas por ChatGPT/IA) para impressão na Jotak Gráfica. Use quando o cliente mandar PNG/JPG pequeno, com texto serrilhado/pixelado/estourado, ou quando perguntarem se um arquivo "aguenta" imprimir em certo tamanho (banner, faixa, adesivo, crachá, placa, camiseta).
+description: Padrão da Jotak Gráfica para QUALQUER arte recebida (PNG/JPG/WebP, de ChatGPT, redes sociais, cliente) que tenha texto, logo, riscos ou vetores e vá para impressão. Refaz o arquivo como "feito na hora": fundo/foto originais limpos + texto, logos, ícones e traços em vetor (curvas) em PDF, sem pixel estourado. Use sempre que chegar arte com texto/baixa resolução, texto serrilhado, ou pergunta se o arquivo aguenta imprimir em certo tamanho.
 ---
 
 # Arte para impressão — Jotak Gráfica
@@ -40,14 +40,27 @@ banner/faixa ficam **reticuladas** (serrilhadas). Esta skill diagnostica e corri
   borrado e peça arquivo melhor ou refação da arte.
 - Sempre entregue um resumo: DPI antes → depois, o que foi feito e os riscos.
 
-## Método "fundo limpo + texto em vetor" (melhor resultado para banner/faixa)
+## PADRÃO OBRIGATÓRIO: refazer em vetor (fundo limpo + vetores por cima)
 
-Usado no caso Isabela Sampaio (1600x800 px -> PDF 108x54 cm). Referência em `refazer_em_vetor/`:
-1. `step1.py` — apaga texto/logo/ícones do fundo (preenchimento suave) e guarda as máscaras.
-2. `build.py` — refaz o texto de fonte conhecida (Poppins, via Google Fonts) como **curvas**,
-   **vetoriza** (potrace) o que usa fonte exclusiva (manuscrito, logo, ícones) e monta o PDF:
-   fundo ampliado 4x + camada vetorial por cima.
-- Dependências: `pip install opencv-python-headless fonttools potracer reportlab`.
-- É um fluxo guiado: as caixas de texto e as fontes ficam no código, ajuste por arte.
-- Sempre compare antes/depois ampliado (pdftocairo -r 300) antes de entregar.
-- Fonte exclusiva não existe no PC: não "adivinhe" outra; vetorize o desenho original.
+Para toda arte com texto/logo/traços, o resultado final é um **PDF** com: (1) fundo e fotos originais
+com tudo que é texto/grafismo removido, ampliados; (2) por cima, tudo refeito em vetor.
+
+Regras do cliente (Jotak) — não negociáveis:
+1. **Manter fiel ao original:** logos (nunca redesenhar nem trocar), cores/tonalidades, posições,
+   proporções, o rosto e as fotos. Só melhora a definição.
+2. **Texto:** olhar cada texto. Se a fonte é conhecida (ex.: Poppins, Montserrat — conferir lado a lado),
+   digitar de novo com a fonte real e converter em curvas. Se a fonte é exclusiva (manuscrito, logotipo),
+   **não trocar por outra parecida**: vetorizar o desenho original.
+3. **Riscos, linhas, ícones, formas, blocos de cor chapada, corações etc.:** examinar um a um e
+   vetorizar (potrace). Nada de grafismo fino ficando em raster se der para vetorizar.
+4. **Foto/rosto:** só ampliação suave + realce leve (nada de IA que reinventa a pessoa).
+5. **Cores:** amostrar do próprio arquivo; usar a mesma cor em todos os elementos do mesmo tipo.
+6. **Conferir:** comparar original x PDF (pdftocairo -r 300) em cada região (texto, ícones, cantos,
+   rosto). Não entregar com falhas visíveis (tracinhos soltos, linhas quebradas, bordas grossas).
+7. Pedir o tamanho final (cm); gerar PDF nesse tamanho, com sangria se pedirem. Se a foto original é
+   pequena, avisar o limite dela (texto/vetor ficam perfeitos, a foto não).
+8. Entregar: PDF + resumo (o que virou vetor, o que ficou raster, riscos).
+
+Fluxo técnico e scripts de referência: `refazer_em_vetor/` (ver `LEIA-ME.md`). São guiados por arte:
+copiar para a pasta de trabalho e ajustar caixas, fontes e cores.
+Para artes simples sem texto importante, o atalho `preparar_arte.py` (diagnóstico/ampliação) basta.
