@@ -1,5 +1,5 @@
 ---
-name: arte-para-impressao
+name: jotak-refazer
 description: Padrão da Jotak Gráfica para QUALQUER arte recebida (PNG/JPG/WebP, de ChatGPT, redes sociais, cliente) que tenha texto, logo, riscos ou vetores e vá para impressão. Refaz o arquivo como "feito na hora": fundo/foto originais limpos + texto, logos, ícones e traços em vetor (curvas) em PDF, sem pixel estourado. Use sempre que chegar arte com texto/baixa resolução, texto serrilhado, ou pergunta se o arquivo aguenta imprimir em certo tamanho.
 ---
 
@@ -13,12 +13,12 @@ banner/faixa ficam **reticuladas** (serrilhadas). Esta skill diagnostica e corri
 1. **Pergunte o tamanho final** de impressão (cm) e o produto, se não souber.
 2. **Diagnostique** (não altera nada):
    ```bash
-   python .claude/skills/arte-para-impressao/preparar_arte.py ARQUIVO --largura-cm 300 --altura-cm 100 --diagnostico
+   python .claude/skills/jotak-refazer/preparar_arte.py ARQUIVO --largura-cm 300 --altura-cm 100 --diagnostico
    ```
    Mostra o DPI efetivo e o veredito (OK / Aceitável / Baixo / Crítico).
 3. **Corrija**:
    ```bash
-   python .claude/skills/arte-para-impressao/preparar_arte.py ARQUIVO --largura-cm 300 --altura-cm 100 --saida pronto.pdf
+   python .claude/skills/jotak-refazer/preparar_arte.py ARQUIVO --largura-cm 300 --altura-cm 100 --saida pronto.pdf
    ```
    Opções:
    - `--dpi N` DPI alvo (padrão: o recomendado do produto; use `--produto banner|faixa|adesivo|cracha|placa|camiseta`).
