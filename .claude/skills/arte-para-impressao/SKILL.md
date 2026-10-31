@@ -61,6 +61,11 @@ Regras do cliente (Jotak) — não negociáveis:
    pequena, avisar o limite dela (texto/vetor ficam perfeitos, a foto não).
 8. Entregar: PDF + resumo (o que virou vetor, o que ficou raster, riscos).
 
+9. **Geometria limpa (exigência do cliente):** reta tem que ser reta, círculo tem que ser redondo,
+   curva tem que ser suave com poucos pontos; ícones simétricos; sem pontos soltos no contorno.
+   Gradiente de fundo é refeito liso (sem blocos/faixas). Foto ruim: reduzir ruído da pele de leve,
+   sem alterar traços do rosto.
+
 Fluxo técnico e scripts de referência: `refazer_em_vetor/` (ver `LEIA-ME.md`). São guiados por arte:
 copiar para a pasta de trabalho e ajustar caixas, fontes e cores.
 Para artes simples sem texto importante, o atalho `preparar_arte.py` (diagnóstico/ampliação) basta.

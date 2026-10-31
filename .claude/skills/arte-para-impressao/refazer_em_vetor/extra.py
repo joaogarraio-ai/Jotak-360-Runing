@@ -6,7 +6,7 @@ H,W=orig.shape[:2]
 clean=np.asarray(Image.open('bg_clean.png').convert('RGB')).copy()
 BLOB=np.array([136,155,162],np.float32); CREAM=np.array([243,238,230],np.float32)
 GOLD=np.array([182,152,118],np.float32); HEART=np.array([220,200,178],np.float32)
-REGS=[((0,0,235,165),GOLD),((1330,0,1600,291),HEART),((1420,291,1600,330),HEART),((1455,590,1600,800),GOLD),((1340,722,1455,800),GOLD)]
+REGS=[((0,0,235,165),GOLD),((1330,0,1600,291),HEART),((1420,291,1600,330),HEART),((1340,590,1600,800),GOLD)]
 BLOBREG=[(0,0,235,165),(1455,600,1600,800),(1340,722,1455,800)]
 rb=orig[...,0]-orig[...,2]; rb_s=cv2.GaussianBlur(rb,(0,0),1.2)
 v=BLOB-CREAM; aBlob=np.clip(((orig-CREAM)*v).sum(-1)/(v*v).sum(),0,1)
@@ -36,11 +36,9 @@ for (x0,y0,x1,y1),C in REGS:
     if x0==0:  # arco liso: ajusta curva nos pedaços detectados e preenche a emenda sobre o bloco
         ys,xs=np.nonzero(m); p=np.polyfit(ys,xs,3); yy=np.arange(ys.min(),ys.max()+1)
         m[:]=0; cv2.polylines(m,[np.stack([np.polyval(p,yy),yy],1).round().astype(np.int32)],False,1,2)
-    if x0==1330:  # ponta que sai pelo topo: prolonga a reta até a borda da arte
-        ys,xs=np.nonzero(m[:40,150:]); k=np.polyfit(ys,xs+150,1); yt=int(ys.min())
-        cv2.line(m,(int(np.polyval(k,yt)),yt),(int(np.polyval(k,0)),0),1,5)
     line[y0:y1,x0:x1]=np.maximum(line[y0:y1,x0:x1],m.astype(np.float32)); erase[y0:y1,x0:x1]=np.maximum(erase[y0:y1,x0:x1],me.astype(np.float32))
     cols.append(tuple(C))
+line[590:722,1340:1455]=0
 er=cv2.dilate(((blobsoft>0.05)|(line>0.05)|(erase>0.5)).astype(np.uint8),np.ones((9,9),np.uint8))
 clean=cv2.inpaint(clean,er*255,8,cv2.INPAINT_TELEA)
 Image.fromarray(clean).save('bg_clean2.png')
