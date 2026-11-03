@@ -87,3 +87,6 @@ Caso Lua de Yemanjá: `refazer_em_vetor/build_mockup_camisa.py`. Recorta a área
 pelos componentes claros (o contorno escuro isola o texto), vetoriza o texto (cor chapada + contorno), tira o texto do fundo
 (inpaint) e amplia a pintura 4x. Pergunte sempre: tamanho da estampa e se existe a arte plana original (muito melhor).
 Avisar: sombras/dobras do tecido e bordas escurecidas continuam na pintura de fundo.
+- Passo 1 do mockup: refazer o FUNDO sem texto (`fundo_limpo.py` -> `lua_fix.py` -> `estrelas.py`): preenche o céu, reconstrói objetos
+  cobertos pelo texto por geometria (ex.: lua = 2 círculos ajustados + faixa "desenrolada" com textura) e repõe estrelas na densidade do entorno.
+  Só depois colocar o texto em vetor por cima.
