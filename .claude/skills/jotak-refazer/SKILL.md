@@ -90,3 +90,11 @@ Avisar: sombras/dobras do tecido e bordas escurecidas continuam na pintura de fu
 - Passo 1 do mockup: refazer o FUNDO sem texto (`fundo_limpo.py` -> `lua_fix.py` -> `estrelas.py`): preenche o céu, reconstrói objetos
   cobertos pelo texto por geometria (ex.: lua = 2 círculos ajustados + faixa "desenrolada" com textura) e repõe estrelas na densidade do entorno.
   Só depois colocar o texto em vetor por cima.
+
+## Sublimação: SANGRIA E SOBRA (exigência do cliente)
+Arte de sublimação vai em várias tamanhos de camisa e precisa cobrir o molde inteiro + sangria.
+1. Pedir o molde (contorno por tamanho) e a sangria. Se o cliente mandar a folha com contorno amarelo, medir (folha, contorno, cor do tecido).
+2. Montar uma tela do tamanho da folha, com a arte no lugar certo (texto abaixo da gola) e o fundo ESTENDIDO além da imagem:
+   cor/gradiente da própria pintura -> azul do tecido, nas 4 bordas, sem retângulo visível (`refazer_em_vetor/build_sublim.py`).
+3. Limpar a fonte da extensão (sem estrelas na borda, sem ponta da lua) para não gerar listras/brilho.
+4. Entregar PDF sem o contorno do molde (guia só na prévia). Avisar a resolução real (px da arte / cm de impressão).
