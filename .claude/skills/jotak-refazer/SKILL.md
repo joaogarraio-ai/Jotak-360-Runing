@@ -98,3 +98,11 @@ Arte de sublimação vai em várias tamanhos de camisa e precisa cobrir o molde 
    cor/gradiente da própria pintura -> azul do tecido, nas 4 bordas, sem retângulo visível (`refazer_em_vetor/build_sublim.py`).
 3. Limpar a fonte da extensão (sem estrelas na borda, sem ponta da lua) para não gerar listras/brilho.
 4. Entregar PDF sem o contorno do molde (guia só na prévia). Avisar a resolução real (px da arte / cm de impressão).
+
+## Ampliação do FUNDO com IA (Real-ESRGAN x4plus, em CPU) — fundo de baixa resolução
+`refazer_em_vetor/sr_run.py entrada.png saida.png RealESRGAN_x4plus.pth` (rede RRDBNet escrita direto, sem basicsr).
+Instalação no ambiente cloud: `pip install /caminho/torch-*.whl` baixado do PyPI (o índice download.pytorch.org é bloqueado):
+`pip download torch --no-deps -d x && pip install x/torch-*.whl filelock typing_extensions sympy networkx jinja2 fsspec setuptools`.
+Pesos: github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth. ~85 s para 540x720 -> 2160x2880.
+Resultado: ondas, nuvens, crateras e estrelas bem mais definidas e sem blocos de JPEG. Não inventa rosto: em foto de pessoa, conferir
+se o rosto não mudou (usar versão suave ou só ampliação comum na região do rosto).
