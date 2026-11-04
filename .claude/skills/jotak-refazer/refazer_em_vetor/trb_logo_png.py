@@ -22,7 +22,16 @@ def keep_near(solid,x0,x1,y0,y1,k=35):
     return np.where(z,near,1.0)
 # holofote esquerdo (neblina bege/laranja, desbotada): fica só o que encosta no dourado sólido do logo
 a=a*keep_near((sat>0.7)&(a>0.9),330,690,0,146)
-a[:Y(62),X(380):X(700)]=0                                   # núcleo do holofote esquerdo (o arco só começa mais abaixo)
+# núcleo do holofote esquerdo: só o que está ACIMA da borda do arco (acompanha a curva, sem corte reto)
+sat_=(c.max(2)-c.min(2))/np.maximum(c.max(2),1)
+zone_h=np.zeros((h,w),bool); zone_h[:Y(70),X(380):X(700)]=True
+arc_solid=((sat_>0.7)&(a>0.9)).astype(np.uint8); arc_solid=cv2.morphologyEx(arc_solid,cv2.MORPH_OPEN,np.ones((9,9),np.uint8))
+nn,ll,ss,_=cv2.connectedComponentsWithStats(arc_solid,8)
+big_=np.zeros((h,w),bool)
+for i in range(1,nn):
+    if ss[i,4]>30000: big_|=ll==i                                  # o arco + letras (massa grande e contínua)
+protect=cv2.dilate(big_.astype(np.uint8),cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(25,25)))>0
+a=np.where(zone_h&~protect,0,a)
 # holofote direito (acima do prédio): fica só o que encosta no branco sólido do prédio
 a=a*keep_near((lum>200)&(sat<0.25)&(a>0.9),1330,1710,0,140,k=15)
 # só o que está ligado ao logo (tira poeira)
