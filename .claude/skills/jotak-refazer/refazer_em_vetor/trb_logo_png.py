@@ -85,7 +85,7 @@ op=cv2.morphologyEx((al>0.5).astype(np.uint8),cv2.MORPH_OPEN,cv2.getStructuringE
 kp=cv2.dilate(op,cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3)))>0
 zz=np.zeros(al.shape,bool); zz[480:600,230:320]=True
 rgba[...,3]=np.where(zz&~kp,0,rgba[...,3])
-im=Image.fromarray(rgba,'RGBA'); im.save('TRB_logo_sem_fundo.png',dpi=(300,300)); print(im.size)
+im=Image.fromarray(rgba,"RGBA"); im.save('TRB_logo_sem_fundo.png',dpi=(300,300)); print(im.size)
 # prévias: fundo branco e xadrez
 for name,bgc in (('prev_branco',(255,255,255)),('prev_escuro',(40,40,40))):
     b=Image.new('RGB',im.size,bgc); b.paste(im,(0,0),im); b.resize((1600,int(1600*im.height/im.width)),Image.LANCZOS).save(f'trb/{name}.png')
