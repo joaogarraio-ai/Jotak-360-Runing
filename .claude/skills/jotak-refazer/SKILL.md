@@ -106,3 +106,8 @@ Instalação no ambiente cloud: `pip install /caminho/torch-*.whl` baixado do Py
 Pesos: github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth. ~85 s para 540x720 -> 2160x2880.
 Resultado: ondas, nuvens, crateras e estrelas bem mais definidas e sem blocos de JPEG. Não inventa rosto: em foto de pessoa, conferir
 se o rosto não mudou (usar versão suave ou só ampliação comum na região do rosto).
+
+## Fachada/mockup de loja (caso TRB Construções, 472x94 cm)
+`refazer_em_vetor/trb_layout.py`: recorta só o painel (luminárias e barra azul de cima são ilustração do mockup e NÃO entram), amplia com Real-ESRGAN,
+reorganiza os blocos em colunas para a nova proporção, fundo azul liso, elementos por alpha de cor. Halo de holofote: filtrar por azul baixo (dourado).
+Resolução final depende do fator da IA (4x): 17432 px / 472 cm ≈ 94 dpi. Pedir sempre o logo original em vetor.
