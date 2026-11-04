@@ -117,3 +117,9 @@ Sombra do mockup NÃO pode ficar grudada: (1) aperta o alpha (franja fraca sai);
 (3) o marrom escuro do chanfro é reconhecido pela cor quente (R>B), não pelo contraste com o fundo; (4) elementos BRANCOS: descasca o fio
 escuro/fosco da borda (pouco saturado), sem tocar no dourado; (5) conferir SEMPRE sobre fundo escuro (40,40,40) e branco, em zoom, antes de entregar.
 Script: `refazer_em_vetor/trb_logo_png.py`.
+
+## PADRÃO DE CURVAS (referência do cliente: faixa laranja/dourada limpa)
+Toda curva/faixa/arco/swoosh deve ficar como vetor limpo: contorno liso com poucos pontos, pontas nítidas, degradê contínuo (sem textura/ruído de IA),
+face clara + chanfro escuro como duas formas separadas e contínuas (sem riscos finos nem falhas). Script: `refazer_em_vetor/curves_clean.py`
+(contorno suavizado preservando pontas, cor = campo de cor suavizado dentro da forma, chanfro fechado e riscos finos incorporados à face).
+Conferir sempre em zoom lado a lado com o original.
