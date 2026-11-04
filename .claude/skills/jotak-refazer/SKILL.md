@@ -111,3 +111,9 @@ se o rosto não mudou (usar versão suave ou só ampliação comum na região do
 `refazer_em_vetor/trb_layout.py`: recorta só o painel (luminárias e barra azul de cima são ilustração do mockup e NÃO entram), amplia com Real-ESRGAN,
 reorganiza os blocos em colunas para a nova proporção, fundo azul liso, elementos por alpha de cor. Halo de holofote: filtrar por azul baixo (dourado).
 Resolução final depende do fator da IA (4x): 17432 px / 472 cm ≈ 94 dpi. Pedir sempre o logo original em vetor.
+
+## PNG sem fundo de logo/texto 3D (extraído de mockup): ajustes finos de borda
+Sombra do mockup NÃO pode ficar grudada: (1) aperta o alpha (franja fraca sai); (2) cor das bordas vem do miolo sólido mais próximo;
+(3) o marrom escuro do chanfro é reconhecido pela cor quente (R>B), não pelo contraste com o fundo; (4) elementos BRANCOS: descasca o fio
+escuro/fosco da borda (pouco saturado), sem tocar no dourado; (5) conferir SEMPRE sobre fundo escuro (40,40,40) e branco, em zoom, antes de entregar.
+Script: `refazer_em_vetor/trb_logo_png.py`.
