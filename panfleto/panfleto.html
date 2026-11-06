@@ -11,11 +11,8 @@
   body { font-family: "Inter", Arial, sans-serif; color: var(--dark);
          -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .folha { width: 210mm; height: 297mm; margin: 0 auto; position: relative; overflow: hidden;
-           background: radial-gradient(ellipse at 50% 35%, #fff 0%, var(--bg) 70%, #e4e4e4 100%);
+           background: #eef0f4 url(img/fundo.svg) center / 100% 100% no-repeat;
            display: flex; flex-direction: column; padding: 7mm 10mm 0; }
-  .swoosh { position: absolute; pointer-events: none; }
-  .swoosh.tl { left: 0; top: 0; width: 80mm; }
-  .swoosh.br { right: 0; bottom: 0; width: 80mm; }
   .it { font-style: italic; font-weight: 900; letter-spacing: 0; }
 
   header { text-align: center; position: relative; z-index: 1; }
@@ -80,15 +77,6 @@
 </head>
 <body>
 <div class="folha">
-  <svg class="swoosh tl" viewBox="0 0 300 220" aria-hidden="true">
-    <path d="M0 0 H300 Q140 30 0 150 Z" fill="#d90b12"/>
-    <path d="M0 150 Q120 40 300 0 Q150 50 0 175 Z" fill="#a3060b" opacity=".8"/>
-    <path d="M0 185 Q130 60 290 6" fill="none" stroke="#d90b12" stroke-width="3" opacity=".6"/>
-  </svg>
-  <svg class="swoosh br" viewBox="0 0 400 260" aria-hidden="true">
-    <path d="M400 30 Q260 180 0 260 H400 Z" fill="#d90b12"/>
-    <path d="M400 0 Q300 160 40 250" fill="none" stroke="#d90b12" stroke-width="4" opacity=".5"/>
-  </svg>
 
   <header>
     <img class="logo" src="img/logo.png" alt="Jota K Impressos &amp; Comunicação Visual">
