@@ -42,6 +42,11 @@
   .card li { padding-left: 2.6mm; position: relative; white-space: nowrap; }
   .card li::before { content: ""; position: absolute; left: 0; top: 1.25mm; width: 1.4mm; height: 1.4mm; border-radius: 50%; background: var(--red); }
   .card li.w { grid-column: 1 / -1; }
+  .card.largo { grid-column: 1 / -1; flex-direction: row; }
+  .card.largo img { width: 50%; height: 100%; }
+  .card.largo .txt { justify-content: center; padding: 3mm 5mm; }
+  .card.largo h2 { font-size: 5.2mm; }
+  .card.largo ul { font-size: 3.4mm; margin-top: 2mm; }
   .card.esc { background: linear-gradient(160deg, #2a2a2a, #0c0c0c); color: #fff; justify-content: center; padding: 4mm 5mm; }
   .card.esc h2 { color: #fff; font-size: 5.2mm; }
   .card.esc p { font-size: 3.2mm; margin-top: 1.6mm; line-height: 1.4; opacity: .9; }
@@ -105,17 +110,17 @@
     <article class="card">
       <img src="img/adesivos.jpg" alt="Carro adesivado Jota K" style="object-position:50% 55%">
       <div class="txt"><h2 class="it">ADESIVOS &amp; PLOTAGENS</h2>
-        <ul><li>Adesivos em vinil</li><li>Automotivo</li><li>Perfurado (One Way)</li><li>Vitrines</li><li class="w">Plotagem de parede (decorativa)</li></ul></div>
+        <ul><li>Adesivo automotivo</li><li>Vitrines</li><li class="w">Perfurado (One Way)</li><li class="w">Plotagem de parede (decorativa)</li></ul></div>
     </article>
     <article class="card">
       <img src="img/camisas.jpg" alt="Camisas e polos personalizados" style="object-position:50% 12%">
       <div class="txt"><h2 class="it">CAMISAS PERSONALIZADAS</h2>
-        <ul><li>DTF</li><li>Transfer</li><li>Uniformes e polos</li><li>Camisas promocionais</li></ul></div>
+        <ul><li>DTF</li><li>Sublimação total</li><li>Transfer</li><li>Uniformes e polos</li><li class="w">Camisas promocionais</li></ul></div>
     </article>
     <article class="card">
-      <img src="img/sublimacao.jpg" alt="Camisas com sublimação total" style="object-position:50% 15%">
-      <div class="txt"><h2 class="it">SUBLIMAÇÃO TOTAL</h2>
-        <ul><li>Estampa total</li><li>Cores intensas</li><li>Ideal para uniformes</li><li>Visual moderno</li></ul></div>
+      <img src="img/adesivos-personalizados.jpg" alt="Cartela de adesivos personalizados" style="object-position:50% 50%">
+      <div class="txt"><h2 class="it">ADESIVOS PERSONALIZADOS</h2>
+        <ul><li>Adesivos em vinil</li><li>Cartelas</li><li>Redondos e recortados</li><li>Produtos e brindes</li></ul></div>
     </article>
     <article class="card">
       <img src="img/rotulos.jpg" alt="Rótulos personalizados em embalagens" style="object-position:50% 30%">
@@ -127,15 +132,10 @@
       <div class="txt"><h2 class="it">ETIQUETAS &amp; RECORTE</h2>
         <ul><li>Etiquetas adesivas</li><li>Código de barras</li><li>Recorte eletrônico</li><li>Crachás</li></ul></div>
     </article>
-    <article class="card">
+    <article class="card largo">
       <img src="img/xerox.jpg" alt="Impressora Xerox e plotter" style="object-position:50% 50%">
       <div class="txt"><h2 class="it">IMPRESSÃO &amp; XEROX</h2>
         <ul><li>Laser Xerox C8130</li><li>Xerox A4 e A3</li><li>Documentos</li><li>Materiais promocionais</li></ul></div>
-    </article>
-    <article class="card esc">
-      <h2 class="it">EMPRESAS E ÓRGÃOS PÚBLICOS</h2>
-      <p>Atendemos pedidos de pequenas a grandes quantidades, com nota fiscal.</p>
-      <ul><li>Prefeituras</li><li>Licitações</li><li>Escolas</li><li>Eventos</li></ul>
     </article>
   </main>
 
