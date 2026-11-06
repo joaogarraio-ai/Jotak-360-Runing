@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Rótulo Mel dos Reis</title>
+<style>
+  @page { size: 200mm 80mm; margin: 0; }
+  :root { --mar: #4f1c08; --mar2: #6b2a0e; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #888; }
+  body { font-family: "Inter", Arial, sans-serif; color: var(--mar);
+         -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .rotulo { width: 200mm; height: 80mm; position: relative; overflow: hidden; margin: 0 auto;
+            background: url(fundo-sem-texto.png) 0 0 / 100% 100% no-repeat; }
+  .bloco { position: absolute; text-transform: uppercase; }
+  .u { text-transform: none; }
+  .cons { left: 5.4mm; top: 7mm; width: 57mm; }
+  .cons h4 { font-size: 3.05mm; font-weight: 800; letter-spacing: .05mm; margin-bottom: .9mm; }
+  .cons p { font-size: 2.32mm; font-weight: 600; line-height: 1.32; color: var(--mar2); }
+  .cons p + p { margin-top: 1.6mm; }
+  .crist { left: 5.4mm; top: 56.2mm; width: 58mm; }
+  .crist p { font-size: 2.2mm; font-weight: 600; line-height: 1.32; color: var(--mar2); }
+  .slogan { left: 70mm; width: 57.2mm; top: 54.3mm; text-align: center; }
+  .slogan b { display: block; font-size: 4.3mm; font-weight: 800; letter-spacing: .1mm; line-height: 1.05; }
+  .slogan span { display: block; font-size: 2.85mm; font-weight: 500; letter-spacing: .25mm; margin-top: .5mm; color: var(--mar2); }
+  .peso { left: 70mm; width: 57.2mm; top: 68.6mm; text-align: center; font-size: 3.6mm; font-weight: 800; }
+  .peso small { font-size: 2.6mm; font-weight: 700; letter-spacing: .1mm; }
+
+  .tabela { position: absolute; left: 145.6mm; top: 7.6mm; width: 50.4mm; height: 59.8mm; background: #fff;
+            border: .45mm solid #3a1405; border-radius: 3mm; padding: 1.8mm 2.2mm 1.4mm;
+            display: flex; flex-direction: column; }
+  .tabela h3 { text-align: center; text-transform: uppercase; white-space: nowrap; font-size: 2.85mm; font-weight: 800; line-height: 1; }
+  .tabela .porcao { text-align: center; white-space: nowrap; font-size: 1.85mm; font-weight: 600; margin-top: .7mm; }
+  table { width: 100%; border-collapse: collapse; margin-top: 1.3mm; font-size: 1.68mm; font-weight: 600; }
+  td:first-child, th { text-transform: uppercase; white-space: nowrap; }
+  th, td { border: .2mm solid #6b2a0e; padding: .78mm .7mm; line-height: 1.15; }
+  th { font-weight: 800; font-size: 1.7mm; }
+  td:nth-child(2), td:nth-child(3), th:nth-child(2) { text-align: center; white-space: nowrap; }
+  td:nth-child(3) { width: 8mm; }
+  .nota { font-size: 1.4mm; font-weight: 500; line-height: 1.3; margin-top: 1mm; text-transform: none; }
+  .gluten { margin-top: auto; border-top: .3mm solid #3a1405; padding-top: .9mm; text-align: center; text-transform: uppercase; font-size: 2.9mm; font-weight: 900; }
+  .ferver { left: 145.6mm; width: 50.4mm; top: 69.2mm; text-align: center; font-size: 3.4mm; font-weight: 800; }
+  @media screen { body { padding: 10mm; } }
+</style>
+</head>
+<body>
+<div class="rotulo">
+  <div class="bloco cons">
+    <h4>Cuidados de conservação:</h4>
+    <p>Antes e após aberto, mantenha em temperatura ambiente (entre 15&nbsp;<span class="u">°C</span> e 30&nbsp;<span class="u">°C</span>), ao abrigo da luz, bem fechado e protegido da umidade.</p>
+    <p>A cor, o aroma e a textura do mel variam de acordo com a florada.</p>
+  </div>
+
+  <div class="bloco crist">
+    <p>Todo mel natural pode cristalizar. É um processo natural que não altera suas propriedades. Para deixá-lo líquido novamente, aqueça em banho-maria a&nbsp;até&nbsp;45&nbsp;<span class="u">°C</span>.</p>
+  </div>
+
+  <div class="bloco slogan"><b>Puro e saudável</b><span>Como a vida tem que ser</span></div>
+  <div class="bloco peso"><small>PESO LÍQUIDO:</small> 1&nbsp;<span class="u">kg</span></div>
+
+  <div class="tabela">
+    <h3>Informação nutricional</h3>
+    <div class="porcao">PORÇÃO DE 20&nbsp;g (1 COLHER DE SOPA)</div>
+    <table>
+      <tr><th>Quantidade por porção</th><th colspan="2">%VD(*)</th></tr>
+      <tr><td>Valor energético</td><td>62&nbsp;kcal = 260&nbsp;kJ</td><td>3%</td></tr>
+      <tr><td>Carboidratos</td><td>17&nbsp;g</td><td>6%</td></tr>
+      <tr><td>Proteínas</td><td>0&nbsp;g</td><td>0%</td></tr>
+      <tr><td>Gorduras totais</td><td>0&nbsp;g</td><td>0%</td></tr>
+      <tr><td>Gorduras saturadas</td><td>0&nbsp;g</td><td>0%</td></tr>
+      <tr><td>Gorduras trans</td><td>0&nbsp;g</td><td>**</td></tr>
+      <tr><td>Fibra alimentar</td><td>0&nbsp;g</td><td>0%</td></tr>
+      <tr><td>Sódio</td><td>0&nbsp;mg</td><td>0%</td></tr>
+    </table>
+    <p class="nota">(*) % Valores Diários com base em uma dieta de 2.000&nbsp;kcal ou 8.400&nbsp;kJ. Seus valores diários podem ser maiores ou menores dependendo de suas necessidades energéticas. (**) VD não estabelecido.</p>
+    <div class="gluten">Não contém glúten</div>
+  </div>
+  <div class="bloco ferver">Não ferver o mel</div>
+</div>
+</body>
+</html>
