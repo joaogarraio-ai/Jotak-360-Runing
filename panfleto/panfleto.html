@@ -2,216 +2,161 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<title>Panfleto Jotak Impressos</title>
+<title>Panfleto Jota K</title>
 <style>
   @page { size: A4; margin: 0; }
-  :root {
-    --navy: #14213d; --navy2: #1f3360; --yellow: #ffc400; --cyan: #00a8e8;
-    --mag: #e0157a; --ink: #1b1b1b; --paper: #ffffff; --soft: #f3f5fa;
-  }
+  :root { --red: #d90b12; --red2: #a3060b; --dark: #141414; --yellow: #ffe100; --bg: #f3f3f3; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: #ccc; }
-  body { font-family: "Montserrat", "Segoe UI", Arial, sans-serif; color: var(--ink);
+  html, body { background: #bbb; }
+  body { font-family: "Inter", Arial, sans-serif; color: var(--dark);
          -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .folha { width: 210mm; height: 297mm; margin: 0 auto; background: var(--paper);
-           position: relative; overflow: hidden; display: flex; flex-direction: column; }
-  /* Topo */
-  .topo { background: var(--navy); color: #fff; padding: 13mm 14mm 16mm; position: relative; }
-  .topo::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 5mm;
-    background: linear-gradient(90deg, var(--cyan) 0 25%, var(--mag) 25% 50%, var(--yellow) 50% 75%, #000 75% 100%); }
-  .marca { display: flex; align-items: center; gap: 5mm; }
-  .logo { width: 22mm; height: 22mm; border-radius: 50%; background: var(--yellow);
-          display: grid; place-items: center; font-weight: 900; font-size: 15mm; color: var(--navy); }
-  .nome { font-size: 15mm; font-weight: 900; letter-spacing: 1mm; line-height: 1; }
-  .nome small { display: block; font-size: 5.2mm; letter-spacing: 1.6mm; font-weight: 600; color: var(--yellow); margin-top: 1.5mm; }
-  .chamada { margin-top: 8mm; font-size: 8.6mm; font-weight: 800; line-height: 1.15; max-width: 150mm; }
-  .chamada span { color: var(--yellow); }
-  .sub { margin-top: 3mm; font-size: 4.2mm; opacity: .85; max-width: 160mm; line-height: 1.4; }
-  .pontos { position: absolute; right: 12mm; top: 12mm; display: flex; gap: 2.5mm; }
-  .pontos i { width: 6mm; height: 6mm; border-radius: 50%; display: block; }
-  /* Serviços */
-  .servicos { flex: 1; padding: 9mm 12mm 6mm; display: grid; grid-template-columns: repeat(4, 1fr);
-              grid-template-rows: auto 1fr 1fr; gap: 5mm 4.5mm; }
-  .titulo { grid-column: 1 / -1; font-size: 6.4mm; font-weight: 900; color: var(--navy);
-            text-transform: uppercase; letter-spacing: .6mm; display: flex; align-items: center; gap: 3mm; }
-  .titulo::after { content: ""; flex: 1; height: 1mm; background: var(--yellow); border-radius: 1mm; }
-  .card { background: var(--soft); border-radius: 4mm; overflow: hidden; display: flex; flex-direction: column;
-          border-bottom: 1.6mm solid var(--c, var(--cyan)); }
-  .card svg { width: 100%; flex: 1; min-height: 0; display: block; background: var(--bg, #fff); }
-  .card h3 { font-size: 4.3mm; font-weight: 800; color: var(--navy); padding: 2.6mm 3mm 0.8mm; line-height: 1.15; }
-  .card p { font-size: 3.05mm; line-height: 1.35; color: #444; padding: 0 3mm 3mm; }
-  .card.cta { background: var(--navy); color: #fff; border-bottom-color: var(--yellow); justify-content: center; padding: 4mm; }
-  .card.cta h3 { color: var(--yellow); padding: 0 0 2mm; font-size: 5mm; }
-  .card.cta p { color: #fff; padding: 0; font-size: 3.4mm; }
-  .card.cta ul { list-style: none; margin-top: 3mm; font-size: 3.3mm; line-height: 1.7; }
-  .card.cta li::before { content: "✔ "; color: var(--yellow); font-weight: 900; }
-  /* Rodapé */
-  .rodape { background: var(--yellow); color: var(--navy); padding: 6mm 12mm; display: flex;
-            align-items: center; justify-content: space-between; gap: 6mm; }
-  .rodape .pedido { font-size: 6.2mm; font-weight: 900; line-height: 1.1; }
-  .rodape .pedido small { display: block; font-size: 3.4mm; font-weight: 600; margin-top: 1mm; }
-  .contatos { font-size: 3.8mm; font-weight: 700; line-height: 1.75; text-align: right; }
-  .contatos b { display: inline-block; min-width: 18mm; color: var(--navy2); font-weight: 900; }
+  .folha { width: 210mm; height: 297mm; margin: 0 auto; position: relative; overflow: hidden;
+           background: radial-gradient(ellipse at 50% 35%, #fff 0%, var(--bg) 70%, #e4e4e4 100%);
+           display: flex; flex-direction: column; padding: 7mm 10mm 0; }
+  .swoosh { position: absolute; pointer-events: none; }
+  .swoosh.tl { left: 0; top: 0; width: 80mm; }
+  .swoosh.br { right: 0; bottom: 0; width: 80mm; }
+  .it { font-style: italic; font-weight: 900; letter-spacing: 0; }
+
+  header { text-align: center; position: relative; z-index: 1; }
+  .logo { width: 62mm; display: block; margin: 0 auto; }
+  .faixa { margin: 3mm auto 0; background: linear-gradient(180deg, #f2242b, var(--red) 55%, var(--red2));
+           border-radius: 6mm; padding: 2.4mm 6mm; display: flex; align-items: center; gap: 4mm;
+           box-shadow: 0 1.2mm 3mm rgba(160,0,0,.35), inset 0 .6mm 0 rgba(255,255,255,.35); color: #fff; }
+  .faixa svg { width: 13mm; flex: none; }
+  .faixa .div { width: .6mm; align-self: stretch; background: rgba(255,255,255,.8); }
+  .faixa h1 { font-size: 6.4mm; line-height: 1.05; text-align: left; text-shadow: 0 .5mm 1mm rgba(0,0,0,.3); }
+  .faixa h1 span { color: var(--yellow); display: block; }
+  .slogan { margin-top: 2mm; font-size: 3.8mm; }
+
+  .grade { flex: 1; min-height: 0; margin-top: 3mm; display: grid; grid-template-columns: 1fr 1fr;
+           grid-template-rows: repeat(4, minmax(0, 1fr)); gap: 3.2mm 4mm; position: relative; z-index: 1; }
+  .card { background: #fff; border-radius: 4mm; overflow: hidden; display: flex; flex-direction: column;
+          box-shadow: 0 .8mm 2.5mm rgba(0,0,0,.18); }
+  .card img { width: 100%; height: 19mm; object-fit: cover; display: block; }
+  .card .txt { padding: 1.8mm 3.2mm 2mm; flex: 1; display: flex; flex-direction: column; }
+  .card h2 { font-size: 4.4mm; line-height: 1; color: var(--dark); display: flex; align-items: center; gap: 2mm; }
+  .card h2::before { content: ""; width: 1.6mm; height: 4.4mm; background: var(--red); border-radius: .5mm; transform: skewX(-12deg); }
+  .card ul { list-style: none; margin-top: 1.4mm; display: grid; grid-template-columns: 1fr 1fr; gap: .2mm 2mm;
+             font-size: 2.95mm; font-weight: 600; line-height: 1.35; }
+  .card li { padding-left: 2.6mm; position: relative; white-space: nowrap; }
+  .card li::before { content: ""; position: absolute; left: 0; top: 1.25mm; width: 1.4mm; height: 1.4mm; border-radius: 50%; background: var(--red); }
+  .card li.w { grid-column: 1 / -1; }
+  .card.esc { background: linear-gradient(160deg, #2a2a2a, #0c0c0c); color: #fff; justify-content: center; padding: 4mm 5mm; }
+  .card.esc h2 { color: #fff; font-size: 5.2mm; }
+  .card.esc p { font-size: 3.2mm; margin-top: 1.6mm; line-height: 1.4; opacity: .9; }
+  .card.esc ul { color: #fff; margin-top: 2mm; }
+  .card.esc li::before { background: var(--yellow); }
+
+  .vantagens { display: flex; justify-content: space-between; margin: 3mm 0 2.5mm; position: relative; z-index: 1; }
+  .vantagens div { flex: 1; text-align: center; font-size: 3mm; line-height: 1.1; border-left: .4mm solid #bbb; padding: 0 1mm; }
+  .vantagens div:first-child { border-left: 0; }
+  .vantagens svg { width: 7mm; height: 7mm; display: block; margin: 0 auto 1mm; }
+
+  footer { position: relative; z-index: 1; margin: 0 -2mm 7mm; background: linear-gradient(180deg, #f2242b, var(--red) 50%, var(--red2));
+           border-radius: 6mm; padding: 3mm 4mm 3mm 7mm; display: flex; align-items: center; gap: 4mm; color: #fff;
+           box-shadow: 0 1.2mm 3mm rgba(120,0,0,.4), inset 0 .6mm 0 rgba(255,255,255,.35); }
+  footer .cta { flex: 1; }
+  footer .cta h3 { font-size: 6.4mm; text-shadow: 0 .5mm 1mm rgba(0,0,0,.3); }
+  footer .tel { display: flex; align-items: center; gap: 2.5mm; margin-top: 1mm; }
+  footer .tel svg { width: 10mm; height: 10mm; flex: none; }
+  footer .num { font-size: 10mm; line-height: 1; }
+  footer .num small { font-size: 6.5mm; color: #fff; }
+  footer .num b { color: var(--yellow); font-weight: 900; }
+  footer .fixo { font-size: 3.4mm; font-weight: 700; margin-top: 1.4mm; }
+  footer .qr { background: #fff; border-radius: 3mm; padding: 1.8mm; text-align: center; color: var(--dark); flex: none; }
+  footer .qr img { width: 24mm; height: 24mm; display: block; }
+  footer .qr span { display: block; font-size: 2.4mm; font-weight: 800; margin-top: .6mm; }
   @media screen { body { padding: 10mm 0; } .folha { box-shadow: 0 4px 30px rgba(0,0,0,.3); } }
   @media print { html, body { background: #fff; } }
 </style>
 </head>
 <body>
 <div class="folha">
-  <header class="topo">
-    <div class="pontos"><i style="background:var(--cyan)"></i><i style="background:var(--mag)"></i><i style="background:var(--yellow)"></i><i style="background:#000;border:.4mm solid #fff"></i></div>
-    <div class="marca">
-      <div class="logo">J</div>
-      <div class="nome">JOTAK<small>IMPRESSOS</small></div>
+  <svg class="swoosh tl" viewBox="0 0 300 220" aria-hidden="true">
+    <path d="M0 0 H300 Q140 30 0 150 Z" fill="#d90b12"/>
+    <path d="M0 150 Q120 40 300 0 Q150 50 0 175 Z" fill="#a3060b" opacity=".8"/>
+    <path d="M0 185 Q130 60 290 6" fill="none" stroke="#d90b12" stroke-width="3" opacity=".6"/>
+  </svg>
+  <svg class="swoosh br" viewBox="0 0 400 260" aria-hidden="true">
+    <path d="M400 30 Q260 180 0 260 H400 Z" fill="#d90b12"/>
+    <path d="M400 0 Q300 160 40 250" fill="none" stroke="#d90b12" stroke-width="4" opacity=".5"/>
+  </svg>
+
+  <header>
+    <img class="logo" src="img/logo.png" alt="Jota K Impressos &amp; Comunicação Visual">
+    <div class="faixa">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" aria-hidden="true">
+        <rect x="12" y="5" width="24" height="10" rx="1.5"/><rect x="4" y="15" width="40" height="18" rx="4"/>
+        <rect x="12" y="27" width="24" height="16" rx="1.5"/><path d="M17 33h14M17 38h10"/><circle cx="37" cy="21" r="1.2" fill="#fff"/>
+      </svg>
+      <div class="div"></div>
+      <h1 class="it">SOLUÇÕES COMPLETAS EM <span>IMPRESSÃO E COMUNICAÇÃO VISUAL</span></h1>
     </div>
-    <h1 class="chamada">Sua marca em <span>destaque</span>,<br>do banner ao crachá.</h1>
-    <p class="sub">Comunicação visual e impressos com qualidade, prazo cumprido e preço justo — para empresas, eventos, escolas e órgãos públicos.</p>
+    <p class="slogan it">Qualidade, criatividade e acabamento profissional para destacar a sua marca.</p>
   </header>
 
-  <main class="servicos">
-    <div class="titulo">Nossos serviços</div>
-
-    <!-- Banner / lona -->
-    <article class="card" style="--c:var(--cyan);--bg:#e8f6fd">
-      <svg viewBox="0 0 200 150" aria-label="Banner roll-up em lona">
-        <rect width="200" height="150" fill="#e8f6fd"/>
-        <rect x="70" y="10" width="60" height="118" rx="2" fill="#fff" stroke="#14213d" stroke-width="2"/>
-        <rect x="70" y="10" width="60" height="44" fill="#00a8e8"/>
-        <circle cx="100" cy="32" r="12" fill="#ffc400"/>
-        <text x="100" y="37" text-anchor="middle" font-size="14" font-weight="900" fill="#14213d" font-family="Arial">J</text>
-        <rect x="78" y="62" width="44" height="6" rx="2" fill="#14213d"/>
-        <rect x="78" y="73" width="36" height="4" rx="2" fill="#9aa6bd"/>
-        <rect x="78" y="81" width="40" height="4" rx="2" fill="#9aa6bd"/>
-        <rect x="78" y="96" width="44" height="18" rx="3" fill="#e0157a"/>
-        <rect x="64" y="128" width="72" height="8" rx="3" fill="#14213d"/>
-        <rect x="56" y="136" width="10" height="4" rx="2" fill="#14213d"/><rect x="134" y="136" width="10" height="4" rx="2" fill="#14213d"/>
-      </svg>
-      <h3>Banner e lona</h3>
-      <p>Banners, roll-ups e lonas impressas em alta resolução.</p>
+  <main class="grade">
+    <article class="card">
+      <img src="img/comunicacao.jpg" alt="Fachada com letreiro Jota K" style="object-position:50% 40%">
+      <div class="txt"><h2 class="it">COMUNICAÇÃO VISUAL</h2>
+        <ul><li>Banners</li><li>Faixas e lonas</li><li>Fachadas</li><li>Placas em PS</li><li>Outdoors</li><li>Bandeiras</li></ul></div>
     </article>
-
-    <!-- Camisa -->
-    <article class="card" style="--c:var(--mag);--bg:#fde8f2">
-      <svg viewBox="0 0 200 150" aria-label="Camisa personalizada">
-        <rect width="200" height="150" fill="#fde8f2"/>
-        <path d="M70 22 L85 14 Q100 26 115 14 L130 22 L158 40 L146 62 L132 54 L132 136 L68 136 L68 54 L54 62 L42 40 Z" fill="#fff" stroke="#14213d" stroke-width="2.5" stroke-linejoin="round"/>
-        <path d="M85 14 Q100 30 115 14" fill="none" stroke="#14213d" stroke-width="2.5"/>
-        <circle cx="100" cy="72" r="16" fill="#e0157a"/>
-        <text x="100" y="78" text-anchor="middle" font-size="17" font-weight="900" fill="#fff" font-family="Arial">J</text>
-        <rect x="80" y="96" width="40" height="5" rx="2" fill="#14213d"/>
-        <rect x="86" y="105" width="28" height="4" rx="2" fill="#9aa6bd"/>
-      </svg>
-      <h3>Camisas</h3>
-      <p>Camisas personalizadas para equipes, eventos e uniformes.</p>
+    <article class="card">
+      <img src="img/adesivos.jpg" alt="Carro adesivado Jota K" style="object-position:50% 55%">
+      <div class="txt"><h2 class="it">ADESIVOS &amp; PLOTAGENS</h2>
+        <ul><li>Adesivos em vinil</li><li>Automotivo</li><li>Perfurado (One Way)</li><li>Vitrines</li><li class="w">Plotagem de parede (decorativa)</li></ul></div>
     </article>
-
-    <!-- Bandeira -->
-    <article class="card" style="--c:var(--yellow);--bg:#fff6d6">
-      <svg viewBox="0 0 200 150" aria-label="Bandeira personalizada">
-        <rect width="200" height="150" fill="#fff6d6"/>
-        <rect x="46" y="12" width="5" height="130" rx="2" fill="#14213d"/>
-        <circle cx="48.5" cy="12" r="5" fill="#ffc400" stroke="#14213d" stroke-width="1.5"/>
-        <path d="M51 20 Q85 8 115 22 T165 22 L165 84 Q135 70 115 84 T51 82 Z" fill="#00a8e8" stroke="#14213d" stroke-width="2"/>
-        <path d="M51 46 Q85 34 115 48 T165 48 L165 60 Q135 46 115 60 T51 58 Z" fill="#ffc400"/>
-        <circle cx="104" cy="52" r="12" fill="#fff" stroke="#14213d" stroke-width="1.5"/>
-        <text x="104" y="57" text-anchor="middle" font-size="13" font-weight="900" fill="#14213d" font-family="Arial">J</text>
-      </svg>
-      <h3>Bandeiras</h3>
-      <p>Bandeiras institucionais, de mesa e promocionais.</p>
+    <article class="card">
+      <img src="img/camisas.jpg" alt="Camisas e polos personalizados" style="object-position:50% 12%">
+      <div class="txt"><h2 class="it">CAMISAS PERSONALIZADAS</h2>
+        <ul><li>DTF</li><li>Transfer</li><li>Uniformes e polos</li><li>Camisas promocionais</li></ul></div>
     </article>
-
-    <!-- Faixa -->
-    <article class="card" style="--c:#14213d;--bg:#e9edf5">
-      <svg viewBox="0 0 200 150" aria-label="Faixa em lona">
-        <rect width="200" height="150" fill="#e9edf5"/>
-        <rect x="8" y="30" width="5" height="110" fill="#8a6a4a"/><rect x="187" y="30" width="5" height="110" fill="#8a6a4a"/>
-        <line x1="13" y1="50" x2="24" y2="52" stroke="#14213d" stroke-width="1.5"/><line x1="13" y1="96" x2="24" y2="94" stroke="#14213d" stroke-width="1.5"/>
-        <line x1="187" y1="50" x2="176" y2="52" stroke="#14213d" stroke-width="1.5"/><line x1="187" y1="96" x2="176" y2="94" stroke="#14213d" stroke-width="1.5"/>
-        <rect x="22" y="46" width="156" height="54" rx="2" fill="#14213d"/>
-        <circle cx="27" cy="52" r="2.2" fill="#ccc"/><circle cx="27" cy="94" r="2.2" fill="#ccc"/>
-        <circle cx="173" cy="52" r="2.2" fill="#ccc"/><circle cx="173" cy="94" r="2.2" fill="#ccc"/>
-        <text x="100" y="72" text-anchor="middle" font-size="16" font-weight="900" fill="#ffc400" font-family="Arial">GRANDE</text>
-        <text x="100" y="90" text-anchor="middle" font-size="12" font-weight="800" fill="#fff" font-family="Arial">INAUGURAÇÃO</text>
-      </svg>
-      <h3>Faixas em lona</h3>
-      <p>Faixas com ilhós e acabamento para fachadas e eventos.</p>
+    <article class="card">
+      <img src="img/sublimacao.jpg" alt="Camisas com sublimação total" style="object-position:50% 15%">
+      <div class="txt"><h2 class="it">SUBLIMAÇÃO TOTAL</h2>
+        <ul><li>Estampa total</li><li>Cores intensas</li><li>Ideal para uniformes</li><li>Visual moderno</li></ul></div>
     </article>
-
-    <!-- Crachá -->
-    <article class="card" style="--c:var(--cyan);--bg:#e8f6fd">
-      <svg viewBox="0 0 200 150" aria-label="Crachá com cordão">
-        <rect width="200" height="150" fill="#e8f6fd"/>
-        <path d="M78 0 L96 44 M122 0 L104 44" stroke="#e0157a" stroke-width="7" stroke-linecap="round"/>
-        <rect x="94" y="40" width="12" height="10" rx="2" fill="#9aa6bd"/>
-        <rect x="70" y="48" width="60" height="92" rx="6" fill="#fff" stroke="#14213d" stroke-width="2"/>
-        <rect x="70" y="48" width="60" height="20" rx="6" fill="#14213d"/>
-        <rect x="70" y="60" width="60" height="8" fill="#14213d"/>
-        <text x="100" y="62" text-anchor="middle" font-size="9" font-weight="900" fill="#ffc400" font-family="Arial">JOTAK</text>
-        <rect x="86" y="74" width="28" height="30" rx="3" fill="#cfe9f7"/>
-        <circle cx="100" cy="85" r="6" fill="#00a8e8"/><path d="M89 104 Q100 90 111 104 Z" fill="#00a8e8"/>
-        <rect x="80" y="110" width="40" height="5" rx="2" fill="#14213d"/>
-        <rect x="86" y="119" width="28" height="4" rx="2" fill="#9aa6bd"/>
-        <rect x="82" y="127" width="36" height="6" fill="repeating-linear-gradient(0)"/>
-        <g fill="#14213d"><rect x="83" y="127" width="1.5" height="7"/><rect x="86" y="127" width="3" height="7"/><rect x="91" y="127" width="1" height="7"/><rect x="94" y="127" width="2.5" height="7"/><rect x="98" y="127" width="1" height="7"/><rect x="101" y="127" width="3" height="7"/><rect x="106" y="127" width="1.5" height="7"/><rect x="109" y="127" width="2.5" height="7"/><rect x="113" y="127" width="1" height="7"/><rect x="115" y="127" width="2" height="7"/></g>
-      </svg>
-      <h3>Crachás</h3>
-      <p>Crachás em PVC com foto, cordão e prendedor.</p>
+    <article class="card">
+      <img src="img/rotulos.jpg" alt="Rótulos personalizados em embalagens" style="object-position:50% 30%">
+      <div class="txt"><h2 class="it">RÓTULOS PERSONALIZADOS</h2>
+        <ul><li>Alimentos</li><li>Cosméticos</li><li>Vários tamanhos</li><li>Material resistente</li></ul></div>
     </article>
-
-    <!-- Placa PS -->
-    <article class="card" style="--c:var(--mag);--bg:#fde8f2">
-      <svg viewBox="0 0 200 150" aria-label="Placa de sinalização em PS">
-        <rect width="200" height="150" fill="#fde8f2"/>
-        <rect x="0" y="0" width="200" height="150" fill="url(#tij)" opacity=".0"/>
-        <rect x="30" y="30" width="140" height="80" rx="6" fill="#0a8f4a" stroke="#14213d" stroke-width="2"/>
-        <rect x="37" y="37" width="126" height="66" rx="3" fill="none" stroke="#fff" stroke-width="2"/>
-        <circle cx="42" cy="42" r="2.5" fill="#ddd"/><circle cx="158" cy="42" r="2.5" fill="#ddd"/>
-        <circle cx="42" cy="98" r="2.5" fill="#ddd"/><circle cx="158" cy="98" r="2.5" fill="#ddd"/>
-        <path d="M48 70 L68 55 L68 63 L88 63 L88 77 L68 77 L68 85 Z" fill="#fff"/>
-        <text x="128" y="77" text-anchor="middle" font-size="18" font-weight="900" fill="#fff" font-family="Arial">SAÍDA</text>
-        <rect x="30" y="120" width="140" height="18" rx="3" fill="#fff" stroke="#14213d" stroke-width="2"/>
-        <text x="100" y="133" text-anchor="middle" font-size="10" font-weight="800" fill="#14213d" font-family="Arial">SALA 01 · RECEPÇÃO</text>
-      </svg>
-      <h3>Placas em PS</h3>
-      <p>Placas de sinalização e identificação para ambientes.</p>
+    <article class="card">
+      <img src="img/etiquetas.jpg" alt="Rolos de etiquetas adesivas" style="object-position:50% 50%">
+      <div class="txt"><h2 class="it">ETIQUETAS &amp; RECORTE</h2>
+        <ul><li>Etiquetas adesivas</li><li>Código de barras</li><li>Recorte eletrônico</li><li>Crachás</li></ul></div>
     </article>
-
-    <!-- Adesivo -->
-    <article class="card" style="--c:var(--yellow);--bg:#fff6d6">
-      <svg viewBox="0 0 200 150" aria-label="Adesivo em vinil">
-        <rect width="200" height="150" fill="#fff6d6"/>
-        <rect x="40" y="22" width="120" height="106" rx="14" fill="#ffc400" stroke="#14213d" stroke-width="2"/>
-        <circle cx="90" cy="68" r="26" fill="#14213d"/>
-        <text x="90" y="78" text-anchor="middle" font-size="28" font-weight="900" fill="#ffc400" font-family="Arial">J</text>
-        <rect x="58" y="102" width="62" height="7" rx="3" fill="#14213d"/>
-        <path d="M160 92 L160 114 Q160 128 146 128 L124 128 Z" fill="#fff6d6"/>
-        <path d="M124 128 L160 92 Q138 96 132 106 Q126 116 124 128 Z" fill="#fff" stroke="#14213d" stroke-width="2" stroke-linejoin="round"/>
-        <path d="M128 122 L156 95" stroke="#d6dbe6" stroke-width="2"/>
-      </svg>
-      <h3>Adesivos em vinil</h3>
-      <p>Adesivos recortados ou impressos para vitrines, veículos e produtos.</p>
+    <article class="card">
+      <img src="img/xerox.jpg" alt="Impressora Xerox e plotter" style="object-position:50% 50%">
+      <div class="txt"><h2 class="it">IMPRESSÃO &amp; XEROX</h2>
+        <ul><li>Laser Xerox C8130</li><li>Xerox A4 e A3</li><li>Documentos</li><li>Materiais promocionais</li></ul></div>
     </article>
-
-    <!-- CTA -->
-    <article class="card cta">
-      <h3>Por que a Jotak?</h3>
-      <p>Do arquivo à entrega, cuidamos de tudo.</p>
-      <ul>
-        <li>Criação da arte</li>
-        <li>Prazo cumprido</li>
-        <li>Grandes volumes</li>
-        <li>Licitações públicas</li>
-      </ul>
+    <article class="card esc">
+      <h2 class="it">EMPRESAS E ÓRGÃOS PÚBLICOS</h2>
+      <p>Atendemos pedidos de pequenas a grandes quantidades, com nota fiscal.</p>
+      <ul><li>Prefeituras</li><li>Licitações</li><li>Escolas</li><li>Eventos</li></ul>
     </article>
   </main>
 
-  <footer class="rodape">
-    <div class="pedido">Peça seu orçamento!<small>Atendimento rápido pelo WhatsApp</small></div>
-    <div class="contatos">
-      <div><b>WhatsApp</b> (00) 00000-0000</div>
-      <div><b>Instagram</b> @jotakimpressos</div>
-      <div><b>Endereço</b> Rua Exemplo, 000 – Cidade/UF</div>
+  <section class="vantagens it">
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="#d90b12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M9 9l2 2 4-4M8.5 14l-2 7 5.5-3 5.5 3-2-7"/></svg>Qualidade<br>Profissional</div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="#d90b12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M10 2h4M12 2v3"/></svg>Agilidade<br>na Entrega</div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="#d90b12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0116 0v2"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><path d="M19 19c0 2-2 3-5 3"/></svg>Atendimento<br>Personalizado</div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="#d90b12" stroke-width="2" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12l9 5 9-5M3 16l9 5 9-5"/></svg>Diversos<br>Materiais</div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="#d90b12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>Soluções<br>sob Medida</div>
+  </section>
+
+  <footer>
+    <div class="cta">
+      <h3 class="it">Solicite seu orçamento!</h3>
+      <div class="tel">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#25d366" stroke="#fff" stroke-width="1.6"/><path d="M11.6 9.2c.4-.3 1-.3 1.3.2l1.6 2.5c.3.5.2 1-.2 1.4l-.9.8c.7 1.7 2.1 3.2 3.9 4l.8-.9c.4-.4 1-.5 1.4-.2l2.5 1.6c.5.3.5.9.2 1.3l-.8 1.1c-.7.9-1.9 1.3-3 .9-3.8-1.3-6.7-4.2-8-8-.4-1.1 0-2.3.9-3z" fill="#fff"/></svg>
+        <div class="num it"><small>75</small> <b>98106-5204</b></div>
+      </div>
+      <div class="fixo it">Também pelo WhatsApp: (75) 3248-2569</div>
     </div>
+    <div class="qr"><img src="img/qr-whatsapp.png" alt="QR code do WhatsApp"><span>Escaneie e fale conosco</span></div>
   </footer>
 </div>
 </body>
