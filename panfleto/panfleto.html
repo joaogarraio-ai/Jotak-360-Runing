@@ -43,10 +43,12 @@
   .card li::before { content: ""; position: absolute; left: 0; top: 1.25mm; width: 1.4mm; height: 1.4mm; border-radius: 50%; background: var(--red); }
   .card li.w { grid-column: 1 / -1; }
   .card.largo { grid-column: 1 / -1; flex-direction: row; }
-  .card.largo img { width: 50%; height: 100%; }
+  .card.largo img { width: 40%; height: 100%; object-position: 50% 45%; }
   .card.largo .txt { justify-content: center; padding: 3mm 5mm; }
   .card.largo h2 { font-size: 5.2mm; }
   .card.largo ul { font-size: 3.4mm; margin-top: 2mm; }
+  .formatos { display: flex; gap: 2.5mm; margin-top: 2.2mm; }
+  .formatos span { background: var(--red); color: #fff; font-size: 5mm; padding: 1mm 3.5mm; border-radius: 2mm; box-shadow: 0 .5mm 1.2mm rgba(160,0,0,.35); }
   .card.esc { background: linear-gradient(160deg, #2a2a2a, #0c0c0c); color: #fff; justify-content: center; padding: 4mm 5mm; }
   .card.esc h2 { color: #fff; font-size: 5.2mm; }
   .card.esc p { font-size: 3.2mm; margin-top: 1.6mm; line-height: 1.4; opacity: .9; }
@@ -133,9 +135,10 @@
         <ul><li>Etiquetas adesivas</li><li>Código de barras</li><li>Recorte eletrônico</li><li>Crachás</li></ul></div>
     </article>
     <article class="card largo">
-      <img src="img/xerox.jpg" alt="Impressora Xerox e plotter" style="object-position:50% 50%">
-      <div class="txt"><h2 class="it">IMPRESSÃO &amp; XEROX</h2>
-        <ul><li>Laser Xerox C8130</li><li>Xerox A4 e A3</li><li>Documentos</li><li>Materiais promocionais</li></ul></div>
+      <img src="img/xerox.jpg" alt="Impressora a laser Xerox">
+      <div class="txt"><h2 class="it">IMPRESSÃO A LASER</h2>
+        <p class="formatos it"><span>A4</span><span>A3</span><span>SRA3</span></p>
+        <ul><li>Alta qualidade</li><li>Cores vivas</li><li>Documentos</li><li>Materiais promocionais</li></ul></div>
     </article>
   </main>
 
