@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Panfleto Jotak Impressos</title>
+<style>
+  @page { size: A4; margin: 0; }
+  :root {
+    --navy: #14213d; --navy2: #1f3360; --yellow: #ffc400; --cyan: #00a8e8;
+    --mag: #e0157a; --ink: #1b1b1b; --paper: #ffffff; --soft: #f3f5fa;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #ccc; }
+  body { font-family: "Montserrat", "Segoe UI", Arial, sans-serif; color: var(--ink);
+         -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .folha { width: 210mm; height: 297mm; margin: 0 auto; background: var(--paper);
+           position: relative; overflow: hidden; display: flex; flex-direction: column; }
+  /* Topo */
+  .topo { background: var(--navy); color: #fff; padding: 13mm 14mm 16mm; position: relative; }
+  .topo::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 5mm;
+    background: linear-gradient(90deg, var(--cyan) 0 25%, var(--mag) 25% 50%, var(--yellow) 50% 75%, #000 75% 100%); }
+  .marca { display: flex; align-items: center; gap: 5mm; }
+  .logo { width: 22mm; height: 22mm; border-radius: 50%; background: var(--yellow);
+          display: grid; place-items: center; font-weight: 900; font-size: 15mm; color: var(--navy); }
+  .nome { font-size: 15mm; font-weight: 900; letter-spacing: 1mm; line-height: 1; }
+  .nome small { display: block; font-size: 5.2mm; letter-spacing: 1.6mm; font-weight: 600; color: var(--yellow); margin-top: 1.5mm; }
+  .chamada { margin-top: 8mm; font-size: 8.6mm; font-weight: 800; line-height: 1.15; max-width: 150mm; }
+  .chamada span { color: var(--yellow); }
+  .sub { margin-top: 3mm; font-size: 4.2mm; opacity: .85; max-width: 160mm; line-height: 1.4; }
+  .pontos { position: absolute; right: 12mm; top: 12mm; display: flex; gap: 2.5mm; }
+  .pontos i { width: 6mm; height: 6mm; border-radius: 50%; display: block; }
+  /* Serviços */
+  .servicos { flex: 1; padding: 9mm 12mm 6mm; display: grid; grid-template-columns: repeat(4, 1fr);
+              grid-template-rows: auto 1fr 1fr; gap: 5mm 4.5mm; }
+  .titulo { grid-column: 1 / -1; font-size: 6.4mm; font-weight: 900; color: var(--navy);
+            text-transform: uppercase; letter-spacing: .6mm; display: flex; align-items: center; gap: 3mm; }
+  .titulo::after { content: ""; flex: 1; height: 1mm; background: var(--yellow); border-radius: 1mm; }
+  .card { background: var(--soft); border-radius: 4mm; overflow: hidden; display: flex; flex-direction: column;
+          border-bottom: 1.6mm solid var(--c, var(--cyan)); }
+  .card svg { width: 100%; flex: 1; min-height: 0; display: block; background: var(--bg, #fff); }
+  .card h3 { font-size: 4.3mm; font-weight: 800; color: var(--navy); padding: 2.6mm 3mm 0.8mm; line-height: 1.15; }
+  .card p { font-size: 3.05mm; line-height: 1.35; color: #444; padding: 0 3mm 3mm; }
+  .card.cta { background: var(--navy); color: #fff; border-bottom-color: var(--yellow); justify-content: center; padding: 4mm; }
+  .card.cta h3 { color: var(--yellow); padding: 0 0 2mm; font-size: 5mm; }
+  .card.cta p { color: #fff; padding: 0; font-size: 3.4mm; }
+  .card.cta ul { list-style: none; margin-top: 3mm; font-size: 3.3mm; line-height: 1.7; }
+  .card.cta li::before { content: "✔ "; color: var(--yellow); font-weight: 900; }
+  /* Rodapé */
+  .rodape { background: var(--yellow); color: var(--navy); padding: 6mm 12mm; display: flex;
+            align-items: center; justify-content: space-between; gap: 6mm; }
+  .rodape .pedido { font-size: 6.2mm; font-weight: 900; line-height: 1.1; }
+  .rodape .pedido small { display: block; font-size: 3.4mm; font-weight: 600; margin-top: 1mm; }
+  .contatos { font-size: 3.8mm; font-weight: 700; line-height: 1.75; text-align: right; }
+  .contatos b { display: inline-block; min-width: 18mm; color: var(--navy2); font-weight: 900; }
+  @media screen { body { padding: 10mm 0; } .folha { box-shadow: 0 4px 30px rgba(0,0,0,.3); } }
+  @media print { html, body { background: #fff; } }
+</style>
+</head>
+<body>
+<div class="folha">
+  <header class="topo">
+    <div class="pontos"><i style="background:var(--cyan)"></i><i style="background:var(--mag)"></i><i style="background:var(--yellow)"></i><i style="background:#000;border:.4mm solid #fff"></i></div>
+    <div class="marca">
+      <div class="logo">J</div>
+      <div class="nome">JOTAK<small>IMPRESSOS</small></div>
+    </div>
+    <h1 class="chamada">Sua marca em <span>destaque</span>,<br>do banner ao crachá.</h1>
+    <p class="sub">Comunicação visual e impressos com qualidade, prazo cumprido e preço justo — para empresas, eventos, escolas e órgãos públicos.</p>
+  </header>
+
+  <main class="servicos">
+    <div class="titulo">Nossos serviços</div>
+
+    <!-- Banner / lona -->
+    <article class="card" style="--c:var(--cyan);--bg:#e8f6fd">
+      <svg viewBox="0 0 200 150" aria-label="Banner roll-up em lona">
+        <rect width="200" height="150" fill="#e8f6fd"/>
+        <rect x="70" y="10" width="60" height="118" rx="2" fill="#fff" stroke="#14213d" stroke-width="2"/>
+        <rect x="70" y="10" width="60" height="44" fill="#00a8e8"/>
+        <circle cx="100" cy="32" r="12" fill="#ffc400"/>
+        <text x="100" y="37" text-anchor="middle" font-size="14" font-weight="900" fill="#14213d" font-family="Arial">J</text>
+        <rect x="78" y="62" width="44" height="6" rx="2" fill="#14213d"/>
+        <rect x="78" y="73" width="36" height="4" rx="2" fill="#9aa6bd"/>
+        <rect x="78" y="81" width="40" height="4" rx="2" fill="#9aa6bd"/>
+        <rect x="78" y="96" width="44" height="18" rx="3" fill="#e0157a"/>
+        <rect x="64" y="128" width="72" height="8" rx="3" fill="#14213d"/>
+        <rect x="56" y="136" width="10" height="4" rx="2" fill="#14213d"/><rect x="134" y="136" width="10" height="4" rx="2" fill="#14213d"/>
+      </svg>
+      <h3>Banner e lona</h3>
+      <p>Banners, roll-ups e lonas impressas em alta resolução.</p>
+    </article>
+
+    <!-- Camisa -->
+    <article class="card" style="--c:var(--mag);--bg:#fde8f2">
+      <svg viewBox="0 0 200 150" aria-label="Camisa personalizada">
+        <rect width="200" height="150" fill="#fde8f2"/>
+        <path d="M70 22 L85 14 Q100 26 115 14 L130 22 L158 40 L146 62 L132 54 L132 136 L68 136 L68 54 L54 62 L42 40 Z" fill="#fff" stroke="#14213d" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M85 14 Q100 30 115 14" fill="none" stroke="#14213d" stroke-width="2.5"/>
+        <circle cx="100" cy="72" r="16" fill="#e0157a"/>
+        <text x="100" y="78" text-anchor="middle" font-size="17" font-weight="900" fill="#fff" font-family="Arial">J</text>
+        <rect x="80" y="96" width="40" height="5" rx="2" fill="#14213d"/>
+        <rect x="86" y="105" width="28" height="4" rx="2" fill="#9aa6bd"/>
+      </svg>
+      <h3>Camisas</h3>
+      <p>Camisas personalizadas para equipes, eventos e uniformes.</p>
+    </article>
+
+    <!-- Bandeira -->
+    <article class="card" style="--c:var(--yellow);--bg:#fff6d6">
+      <svg viewBox="0 0 200 150" aria-label="Bandeira personalizada">
+        <rect width="200" height="150" fill="#fff6d6"/>
+        <rect x="46" y="12" width="5" height="130" rx="2" fill="#14213d"/>
+        <circle cx="48.5" cy="12" r="5" fill="#ffc400" stroke="#14213d" stroke-width="1.5"/>
+        <path d="M51 20 Q85 8 115 22 T165 22 L165 84 Q135 70 115 84 T51 82 Z" fill="#00a8e8" stroke="#14213d" stroke-width="2"/>
+        <path d="M51 46 Q85 34 115 48 T165 48 L165 60 Q135 46 115 60 T51 58 Z" fill="#ffc400"/>
+        <circle cx="104" cy="52" r="12" fill="#fff" stroke="#14213d" stroke-width="1.5"/>
+        <text x="104" y="57" text-anchor="middle" font-size="13" font-weight="900" fill="#14213d" font-family="Arial">J</text>
+      </svg>
+      <h3>Bandeiras</h3>
+      <p>Bandeiras institucionais, de mesa e promocionais.</p>
+    </article>
+
+    <!-- Faixa -->
+    <article class="card" style="--c:#14213d;--bg:#e9edf5">
+      <svg viewBox="0 0 200 150" aria-label="Faixa em lona">
+        <rect width="200" height="150" fill="#e9edf5"/>
+        <rect x="8" y="30" width="5" height="110" fill="#8a6a4a"/><rect x="187" y="30" width="5" height="110" fill="#8a6a4a"/>
+        <line x1="13" y1="50" x2="24" y2="52" stroke="#14213d" stroke-width="1.5"/><line x1="13" y1="96" x2="24" y2="94" stroke="#14213d" stroke-width="1.5"/>
+        <line x1="187" y1="50" x2="176" y2="52" stroke="#14213d" stroke-width="1.5"/><line x1="187" y1="96" x2="176" y2="94" stroke="#14213d" stroke-width="1.5"/>
+        <rect x="22" y="46" width="156" height="54" rx="2" fill="#14213d"/>
+        <circle cx="27" cy="52" r="2.2" fill="#ccc"/><circle cx="27" cy="94" r="2.2" fill="#ccc"/>
+        <circle cx="173" cy="52" r="2.2" fill="#ccc"/><circle cx="173" cy="94" r="2.2" fill="#ccc"/>
+        <text x="100" y="72" text-anchor="middle" font-size="16" font-weight="900" fill="#ffc400" font-family="Arial">GRANDE</text>
+        <text x="100" y="90" text-anchor="middle" font-size="12" font-weight="800" fill="#fff" font-family="Arial">INAUGURAÇÃO</text>
+      </svg>
+      <h3>Faixas em lona</h3>
+      <p>Faixas com ilhós e acabamento para fachadas e eventos.</p>
+    </article>
+
+    <!-- Crachá -->
+    <article class="card" style="--c:var(--cyan);--bg:#e8f6fd">
+      <svg viewBox="0 0 200 150" aria-label="Crachá com cordão">
+        <rect width="200" height="150" fill="#e8f6fd"/>
+        <path d="M78 0 L96 44 M122 0 L104 44" stroke="#e0157a" stroke-width="7" stroke-linecap="round"/>
+        <rect x="94" y="40" width="12" height="10" rx="2" fill="#9aa6bd"/>
+        <rect x="70" y="48" width="60" height="92" rx="6" fill="#fff" stroke="#14213d" stroke-width="2"/>
+        <rect x="70" y="48" width="60" height="20" rx="6" fill="#14213d"/>
+        <rect x="70" y="60" width="60" height="8" fill="#14213d"/>
+        <text x="100" y="62" text-anchor="middle" font-size="9" font-weight="900" fill="#ffc400" font-family="Arial">JOTAK</text>
+        <rect x="86" y="74" width="28" height="30" rx="3" fill="#cfe9f7"/>
+        <circle cx="100" cy="85" r="6" fill="#00a8e8"/><path d="M89 104 Q100 90 111 104 Z" fill="#00a8e8"/>
+        <rect x="80" y="110" width="40" height="5" rx="2" fill="#14213d"/>
+        <rect x="86" y="119" width="28" height="4" rx="2" fill="#9aa6bd"/>
+        <rect x="82" y="127" width="36" height="6" fill="repeating-linear-gradient(0)"/>
+        <g fill="#14213d"><rect x="83" y="127" width="1.5" height="7"/><rect x="86" y="127" width="3" height="7"/><rect x="91" y="127" width="1" height="7"/><rect x="94" y="127" width="2.5" height="7"/><rect x="98" y="127" width="1" height="7"/><rect x="101" y="127" width="3" height="7"/><rect x="106" y="127" width="1.5" height="7"/><rect x="109" y="127" width="2.5" height="7"/><rect x="113" y="127" width="1" height="7"/><rect x="115" y="127" width="2" height="7"/></g>
+      </svg>
+      <h3>Crachás</h3>
+      <p>Crachás em PVC com foto, cordão e prendedor.</p>
+    </article>
+
+    <!-- Placa PS -->
+    <article class="card" style="--c:var(--mag);--bg:#fde8f2">
+      <svg viewBox="0 0 200 150" aria-label="Placa de sinalização em PS">
+        <rect width="200" height="150" fill="#fde8f2"/>
+        <rect x="0" y="0" width="200" height="150" fill="url(#tij)" opacity=".0"/>
+        <rect x="30" y="30" width="140" height="80" rx="6" fill="#0a8f4a" stroke="#14213d" stroke-width="2"/>
+        <rect x="37" y="37" width="126" height="66" rx="3" fill="none" stroke="#fff" stroke-width="2"/>
+        <circle cx="42" cy="42" r="2.5" fill="#ddd"/><circle cx="158" cy="42" r="2.5" fill="#ddd"/>
+        <circle cx="42" cy="98" r="2.5" fill="#ddd"/><circle cx="158" cy="98" r="2.5" fill="#ddd"/>
+        <path d="M48 70 L68 55 L68 63 L88 63 L88 77 L68 77 L68 85 Z" fill="#fff"/>
+        <text x="128" y="77" text-anchor="middle" font-size="18" font-weight="900" fill="#fff" font-family="Arial">SAÍDA</text>
+        <rect x="30" y="120" width="140" height="18" rx="3" fill="#fff" stroke="#14213d" stroke-width="2"/>
+        <text x="100" y="133" text-anchor="middle" font-size="10" font-weight="800" fill="#14213d" font-family="Arial">SALA 01 · RECEPÇÃO</text>
+      </svg>
+      <h3>Placas em PS</h3>
+      <p>Placas de sinalização e identificação para ambientes.</p>
+    </article>
+
+    <!-- Adesivo -->
+    <article class="card" style="--c:var(--yellow);--bg:#fff6d6">
+      <svg viewBox="0 0 200 150" aria-label="Adesivo em vinil">
+        <rect width="200" height="150" fill="#fff6d6"/>
+        <rect x="40" y="22" width="120" height="106" rx="14" fill="#ffc400" stroke="#14213d" stroke-width="2"/>
+        <circle cx="90" cy="68" r="26" fill="#14213d"/>
+        <text x="90" y="78" text-anchor="middle" font-size="28" font-weight="900" fill="#ffc400" font-family="Arial">J</text>
+        <rect x="58" y="102" width="62" height="7" rx="3" fill="#14213d"/>
+        <path d="M160 92 L160 114 Q160 128 146 128 L124 128 Z" fill="#fff6d6"/>
+        <path d="M124 128 L160 92 Q138 96 132 106 Q126 116 124 128 Z" fill="#fff" stroke="#14213d" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M128 122 L156 95" stroke="#d6dbe6" stroke-width="2"/>
+      </svg>
+      <h3>Adesivos em vinil</h3>
+      <p>Adesivos recortados ou impressos para vitrines, veículos e produtos.</p>
+    </article>
+
+    <!-- CTA -->
+    <article class="card cta">
+      <h3>Por que a Jotak?</h3>
+      <p>Do arquivo à entrega, cuidamos de tudo.</p>
+      <ul>
+        <li>Criação da arte</li>
+        <li>Prazo cumprido</li>
+        <li>Grandes volumes</li>
+        <li>Licitações públicas</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="rodape">
+    <div class="pedido">Peça seu orçamento!<small>Atendimento rápido pelo WhatsApp</small></div>
+    <div class="contatos">
+      <div><b>WhatsApp</b> (00) 00000-0000</div>
+      <div><b>Instagram</b> @jotakimpressos</div>
+      <div><b>Endereço</b> Rua Exemplo, 000 – Cidade/UF</div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
