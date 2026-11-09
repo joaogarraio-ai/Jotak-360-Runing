@@ -26,7 +26,9 @@ class Testes(unittest.TestCase):
             self.assertEqual(classificar(t)[0], "descartar", t)
 
     def test_proximo_vira_talvez(self):
-        self.assertEqual(classificar("serviços de plotagem")[0], "talvez")
+        for t in ["serviços de plotagem", "plotagens de mapas", "impressão em plotter",
+                  "locação de plotters", "serviço de plotar projetos"]:
+            self.assertEqual(classificar(t)[0], "talvez", t)
 
     def test_licitanet(self):
         ops = ler_licitanet(BOLETIM)

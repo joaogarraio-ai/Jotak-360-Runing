@@ -22,7 +22,7 @@ PRODUTOS = {
 
 # Termos próximos do ramo: entram como "talvez" para revisão humana.
 PROXIMOS = {
-    "Plotagem": r"\bplotagem\b|\bplotter\b",
+    "Plotagem": r"\bplotage(?:m|ns)\b|\bplotters?\b|\bplotar\b",
     "Comunicação visual": r"\bcomunicacao visual\b|\bidentificacao visual\b",
     "Impressão gráfica": r"\bimpressao grafica\b|\bservicos? graficos?\b|\bmaterial grafico\b",
     "Uniforme": r"\buniformes?\b",
