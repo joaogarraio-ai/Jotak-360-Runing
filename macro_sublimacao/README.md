@@ -17,12 +17,19 @@ Requisitos: **CorelDRAW X8 (2016) ou superior, no Windows**, com o VBA instalado
 
 1. No CorelDRAW, abra **Ferramentas › Scripts › Editor de scripts** (ou aperte `Alt+F11`).
 2. Na árvore da esquerda, clique em **GlobalMacros**.
-3. Em **Arquivo › Importar arquivo…**, importe os 4 arquivos desta pasta:
-   `SubliComum.bas`, `SubliEncaixe.bas`, `SubliProducao.bas` e `SubliMockups.bas`.
+3. Em **Arquivo › Importar arquivo…**, importe os 5 arquivos `.bas` desta pasta:
+   `SubliComum.bas`, `SubliEncaixe.bas`, `SubliProducao.bas`, `SubliMockups.bas` e `SubliTeste.bas`.
 4. Em **Depurar › Compilar GlobalMacros**, compile. Se nenhum erro aparecer, está pronto.
 5. Salve com `Ctrl+S` e feche o editor.
 
 Para rodar uma macro, use **Ferramentas › Scripts › Executar script** (`Alt+F8`) e escolha a macro. Também dá para criar um botão: **Ferramentas › Opções › Personalização › Comandos › Scripts** e arrastar a macro para uma barra de ferramentas.
+
+### Teste rápido (sem desenhar nada)
+
+1. Aperte `Alt+F8`, escolha **CriarModeloDeTeste** e clique em Executar. A macro cria um documento novo com moldes P, M, G e GG de frente e costas, as artes (as costas já trazem nome e número) e uma página de mockup.
+2. Na página **ARTE**, rode **GerarMoldesPorTamanho** e aceite as respostas padrão. Deve aparecer a página **PRODUCAO** com 8 peças encaixadas.
+3. Rode **GerarNomesENumeros** e escolha o `exemplo_nomes.csv`. Cada pessoa recebe frente e costas com o próprio nome e número. A linha `BL-P` gera um aviso de propósito, porque esse molde não existe no modelo.
+4. Volte para a página **ARTE** e rode **GerarMockups**. A arte da frente aparece na página **MOCKUP 1 - Frente**.
 
 ---
 
@@ -107,4 +114,4 @@ Os ajustes ficam no topo de `SubliComum.bas`. No editor de scripts, abra o módu
 - **"Não encontrei nenhuma arte"**: a arte não está com nome `ARTE_...` ou está dentro de outro grupo.
 - **"Não achei o molde base"**: falta o molde `MOLDE_<PEÇA>_M`, ou a arte não está em cima de nenhum molde daquela peça.
 - **"Não existe o molde MOLDE_FRENTE_XG"**: a planilha pede um tamanho que não foi desenhado.
-- **Erro de compilação ao importar**: confira se os 4 arquivos `.bas` foram importados no mesmo projeto (GlobalMacros).
+- **Erro de compilação ao importar**: confira se os 5 arquivos `.bas` foram importados no mesmo projeto (GlobalMacros).
