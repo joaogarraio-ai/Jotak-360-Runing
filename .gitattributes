@@ -1,0 +1,3 @@
+# O editor VBA do CorelDRAW só importa arquivos ANSI (cp1252) com CRLF: não converter
+macro_sublimacao/*.bas -text
+macro_sublimacao/*.csv -text
